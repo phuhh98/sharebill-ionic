@@ -1,0 +1,7 @@
+{
+  "name": "Sharebill",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
