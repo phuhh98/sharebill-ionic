@@ -7,30 +7,31 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+        path: 'upload',
+        loadComponent: () => import('../upload/upload.page').then((m) => m.UploadPage),
       },
       {
-        path: 'tab2',
-        loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+        path: 'receipt',
+        loadComponent: () => import('../receipt/receipt.page').then((m) => m.ReceiptPage),
       },
       {
-        path: 'tab3',
-        loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+        path: 'share',
+        loadComponent: () => import('../share/share.page').then((m) => m.SharePage),
+      },
+      {
+        path: 'payers',
+        loadComponent: () => import('../payers/payers.page').then((m) => m.PayersPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/upload',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/upload',
     pathMatch: 'full',
   },
 ];

@@ -1,0 +1,13 @@
+@mixin header {
+  .header-title {
+    background-color: dodgerblue;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  ion-header {
+    --background: transparent;
+    --color: white;
+  }
+}
