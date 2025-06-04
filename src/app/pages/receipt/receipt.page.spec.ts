@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharePage } from './share.page';
 
-describe('SharePage', () => {
-  let component: SharePage;
-  let fixture: ComponentFixture<SharePage>;
+import { ReceiptPage } from './receipt.page';
+
+describe('ReceiptPage', () => {
+  let component: ReceiptPage;
+  let fixture: ComponentFixture<ReceiptPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SharePage);
+    fixture = TestBed.createComponent(ReceiptPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

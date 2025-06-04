@@ -1,37 +1,38 @@
 import { Routes } from '@angular/router';
+
 import { TabsPage } from './tabs.page';
 
 export const routes: Routes = [
   {
-    path: 'tabs',
-    component: TabsPage,
     children: [
       {
+        loadComponent: () => import('../pages/upload/upload.page').then((m) => m.UploadPage),
         path: 'upload',
-        loadComponent: () => import('../upload/upload.page').then((m) => m.UploadPage),
       },
       {
+        loadComponent: () => import('../pages/receipt/receipt.page').then((m) => m.ReceiptPage),
         path: 'receipt',
-        loadComponent: () => import('../receipt/receipt.page').then((m) => m.ReceiptPage),
       },
       {
+        loadComponent: () => import('../pages/share/share.page').then((m) => m.SharePage),
         path: 'share',
-        loadComponent: () => import('../share/share.page').then((m) => m.SharePage),
       },
       {
+        loadComponent: () => import('../pages/payers/payers.page').then((m) => m.PayersPage),
         path: 'payers',
-        loadComponent: () => import('../payers/payers.page').then((m) => m.PayersPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/upload',
         pathMatch: 'full',
+        redirectTo: '/tabs/upload',
       },
     ],
+    component: TabsPage,
+    path: 'tabs',
   },
   {
     path: '',
-    redirectTo: '/tabs/upload',
     pathMatch: 'full',
+    redirectTo: '/tabs/upload',
   },
 ];
