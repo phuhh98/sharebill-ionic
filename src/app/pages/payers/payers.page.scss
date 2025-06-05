@@ -1,2 +1,21 @@
-@use 'src/styles/header.scss' as *;
-@include header;
+.fade-out {
+  pointer-events: none; // Prevent clicks during fade-out
+  animation: fadeOut 0.4s forwards ease-out; /* Applying ease-out here */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    height: auto;
+  }
+
+  50% {
+    opacity: 0.8; /* Optional: intermediate opacity */
+    transform: scale(1.5, 0.3) translateX(-60%); /* Optional: subtle upward movement */
+  }
+
+  100% {
+    opacity: 0;
+    height: 0; /* Optional: collapse height during fade-out */
+  }
+}

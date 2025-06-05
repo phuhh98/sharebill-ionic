@@ -23,10 +23,11 @@ import {
   IonListHeader,
 } from '@ionic/angular/standalone';
 import { IonAvatar } from '@ionic/angular/standalone';
+import { StoreService } from '@store/services/store.service';
+import { PayersState } from '@store/states/payers.state';
 import { addIcons } from 'ionicons';
 import { trash, warning } from 'ionicons/icons';
-import { Subject } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
 @Component({
   imports: [
     IonLabel,
@@ -65,19 +66,23 @@ export class PayersPage implements OnInit {
       Validators.maxLength(22),
     ]),
   });
-  payersList: string[] = [];
-  payersSubject$ = new Subject<string>();
+  payersList: { name: string; tobeDeleted: boolean }[] = [];
+
+  payersStateSubject$: BehaviorSubject<PayersState>;
 
   showErrorToast = signal(false);
-  constructor() {
+
+  constructor(private storeService: StoreService) {
     addIcons({ trash, warning });
+
+    this.payersStateSubject$ = this.storeService.payersService.get();
   }
 
   addPayer(payer: string) {
     if (!payer || payer.trim() === '') {
       return;
     }
-    this.payersSubject$.next(payer.trim());
+    this.storeService.payersService.addPayer(payer.trim());
   }
 
   handleToastDismissed() {
@@ -85,9 +90,10 @@ export class PayersPage implements OnInit {
   }
 
   ngOnInit() {
-    this.payersSubject$.subscribe((payerName: string) => {
-      this.payersList.push(payerName);
-      this.payerForm.reset();
+    this.payersStateSubject$.subscribe(() => {
+      this.payersList = this.payersStateSubject$
+        .getValue()
+        .payers.map((payer) => ({ name: payer.name, tobeDeleted: false }));
     });
   }
 
@@ -97,6 +103,21 @@ export class PayersPage implements OnInit {
       return;
     }
     this.addPayer(this.payerForm.value.payerName);
+    this.payerForm.reset();
+  }
+
+  removePayer(payer: string) {
+    if (!payer || payer.trim() === '') {
+      return;
+    }
+    console.log('Removing payer:', payer.trim());
+    this.payersList = this.payersList.map((p) =>
+      p.name === payer.trim() ? { ...p, tobeDeleted: true } : p
+    );
+    // Delay the actual removal to allow UI to update
+    setTimeout(() => {
+      this.storeService.payersService.removePayer(payer.trim());
+    }, 1000);
   }
 
   showToast() {

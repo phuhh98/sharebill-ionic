@@ -22,7 +22,8 @@
     "useDefineForClassFields": false,
     "paths": {
       "@components/*": ["src/app/components/*"],
-      "@pages/*": ["src/app/pages/*"]
+      "@pages/*": ["src/app/pages/*"],
+      "@store/*": ["src/app/store/*"]
     }
   },
   "angularCompilerOptions": {
