@@ -21,7 +21,7 @@
       </ion-list-header>
       @for (payer of payersList; track `${payer.name}`) {
 
-      <ion-item-sliding [class]="payer.tobeDeleted ? 'fade-out' : ''">
+      <ion-item-sliding [class]="`${payer.tobeDeleted ? 'fade-out' : 'fade-in '}`">
         <ion-item>
           <ion-avatar aria-hidden="true" slot="start">
             <img [ngSrc]="'https://i.pravatar.cc/300'" width="40" height="40" />
