@@ -1,0 +1,46 @@
+@mixin fadeIn {
+  .fade-in {
+    animation: fadeIn 0.4s forwards ease-in; /* Applying ease-in here */
+    pointer-events: auto; // Enable clicks after fade-in
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      height: 0; /* Optional: collapse height during fade-in */
+    }
+
+    50% {
+      opacity: 0.4; /* Optional: intermediate opacity */
+      transform: scale(1.5, 0.3) translateX(-20%); /* Optional: subtle upward movement */
+    }
+
+    100% {
+      opacity: 1;
+      height: auto; /* Expand to full height */
+    }
+  }
+}
+
+@mixin fadeOut {
+  .fade-out {
+    pointer-events: none; // Prevent clicks during fade-out
+    animation: fadeOut 0.4s forwards ease-out; /* Applying ease-out here */
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      height: auto;
+    }
+
+    50% {
+      opacity: 0.8; /* Optional: intermediate opacity */
+      transform: scale(1.5, 0.3) translateX(-60%); /* Optional: subtle upward movement */
+    }
+
+    100% {
+      opacity: 0;
+      height: 0; /* Optional: collapse height during fade-out */
+    }
+  }
+}

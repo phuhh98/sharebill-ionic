@@ -110,14 +110,13 @@ export class PayersPage implements OnInit {
     if (!payer || payer.trim() === '') {
       return;
     }
-    console.log('Removing payer:', payer.trim());
     this.payersList = this.payersList.map((p) =>
       p.name === payer.trim() ? { ...p, tobeDeleted: true } : p
     );
     // Delay the actual removal to allow UI to update
     setTimeout(() => {
       this.storeService.payersService.removePayer(payer.trim());
-    }, 1000);
+    }, 500);
   }
 
   showToast() {

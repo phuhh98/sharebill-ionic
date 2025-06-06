@@ -1,0 +1,28 @@
+@if (!itemData()) {} @else {
+<ion-item-sliding
+  (ionDrag)="onItemDrag(itemData()!.id)"
+  [class]="aboutToDelete ? 'fade-out' : 'fade-in'"
+>
+  <ion-item button="true">
+    <ion-label>{{ itemData()!.name | ellipsis : 20 }}</ion-label>
+    <ion-note slot="end">
+      {{ itemData()!.quantity }} x
+      {{ itemData()!.unit_price | currency : currencyCode() : 'symbol' : '1.2-2' }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item-options>
+    <ion-item-option color="tertiary" [id]="`${itemData()!.id}-edit`" expandable="true">
+      <ion-icon slot="icon-only" name="create"></ion-icon>
+    </ion-item-option>
+    <ion-item-option color="danger" expandable="true" (click)="deleteItem(itemData()!.id)">
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>
+<app-item-edit-modal
+  [triggerId]="`${itemData()!.id}-edit`"
+  [itemData]="itemData()"
+  [currencyCode]="currencyCode()"
+/>
+}

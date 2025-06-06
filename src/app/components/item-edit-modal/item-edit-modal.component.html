@@ -1,0 +1,52 @@
+<ion-modal [trigger]="triggerId()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Welcome</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form [formGroup]="itemForm" (ngSubmit)="onItemFormSubmit()">
+        <ion-item>
+          <ion-input
+            type="text"
+            label="Name"
+            formControlName="name"
+            [clearInput]="true"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="text"
+            label="Description"
+            formControlName="description"
+            [clearInput]="true"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="number"
+            label="Quantity"
+            formControlName="quantity"
+            [clearInput]="true"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="number"
+            [label]="`Unit price ${currencyCode()}`"
+            formControlName="unitPrice"
+            [clearInput]="true"
+          ></ion-input>
+        </ion-item>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

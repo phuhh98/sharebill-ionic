@@ -1,1 +1,9 @@
 <app-named-header title="receipt"></app-named-header>
+<ion-content color="light">
+  <ion-list inset="true">
+    <ion-list-header> Items </ion-list-header>
+    @for (item of receipt?.items; track item.id) {
+    <app-receipt-item [itemData]="item" [currencyCode]="receipt?.currency!" />
+    }
+  </ion-list>
+</ion-content>

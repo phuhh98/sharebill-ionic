@@ -14,8 +14,24 @@ export class ReceiptService implements StoreInterface<ReceiptState> {
 
   constructor(private storeService: StoreService) {}
 
+  addItem(item: ReceiptState['items'][number]): void {
+    if (!item) return;
+
+    const currentItems = this.receiptSubject$.getValue().items;
+    const updatedItems = [...currentItems, item];
+    this.set({ items: updatedItems });
+  }
+
   get(): BehaviorSubject<ReceiptState> {
     return this.receiptSubject$;
+  }
+
+  removeItem(itemId: string): void {
+    if (!itemId) return;
+
+    const currentItems = this.receiptSubject$.getValue().items;
+    const updatedItems = currentItems.filter((item) => item.id !== itemId);
+    this.set({ items: updatedItems });
   }
 
   set(stateChanges: Partial<ReceiptState>): void {
@@ -26,5 +42,15 @@ export class ReceiptService implements StoreInterface<ReceiptState> {
 
     // sample explanation as in payers.service.ts
     this.storeService.set({ receipt: receiptState });
+  }
+
+  updateItem(itemId: string, itemChanges: Partial<ReceiptState['items'][number]>): void {
+    if (!itemId || !itemChanges) return;
+
+    const currentItems = this.receiptSubject$.getValue().items;
+    const updatedItems = currentItems.map((item) =>
+      item.id === itemId ? { ...item, ...itemChanges } : item
+    );
+    this.set({ items: updatedItems });
   }
 }

@@ -1,2 +1,3 @@
-@use 'src/styles/header.scss'  as *;
-@include header;
+@use 'src/styles/animation.scss' as *;
+@include fadeIn;
+@include fadeOut;

@@ -6,7 +6,9 @@ export const DEFAULT_PAYERS: PayersState = {
 };
 
 export const DEFAULT_RECEIPT: ReceiptState = {
-  date: new Date(),
+  currency: 'VND',
   items: [],
-  totalAmount: 0,
+  product_count: 0,
+  receipt_date: new Date(),
+  total_receipt_price: 0,
 };

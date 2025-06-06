@@ -1,12 +1,16 @@
 export interface ReceiptItem {
   description?: string;
+  id: string;
   name: string;
   quantity: number;
-  unitPrice: number;
+  total_price: number;
+  unit_price: number;
 }
 
 export interface ReceiptState {
-  date: Date;
+  currency: string;
   items: ReceiptItem[];
-  totalAmount: number;
+  product_count: number;
+  receipt_date: Date;
+  total_receipt_price: number;
 }
