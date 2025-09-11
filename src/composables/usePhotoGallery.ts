@@ -45,11 +45,33 @@ export const usePhotoGallery = () => {
   const pickFromGallary = async () => {
     const permissions = await Camera.requestPermissions();
 
-    // const photos = await Camera.
+    if (
+      Capacitor.getPlatform() !== "web" &&
+      !["granted", "limited"].includes(permissions.photos)
+    ) {
+      await Camera.requestPermissions();
+    }
+
+    const galleryPhotos = await Camera.pickImages({
+      quality: 100,
+      limit: 10,
+    });
+
+    galleryPhotos.photos.forEach((photo) => {
+      const fileName = Date.now() + photo.format;
+      const savedFileImage: TakenPhoto = {
+        filepath: fileName,
+        format: photo.format,
+        webviewPath: photo.webPath,
+      };
+
+      photos.value = [savedFileImage, ...photos.value];
+    });
   };
 
   return {
     photos,
     takePhoto,
+    pickFromGallary,
   };
 };
