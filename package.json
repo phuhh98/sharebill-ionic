@@ -29,6 +29,7 @@
     "@ionic/vue-router": "^8.0.0",
     "@tailwindcss/vite": "^4.1.13",
     "currency-symbol-map": "^5.1.0",
+    "danfojs": "^1.2.0",
     "dayjs": "^1.11.18",
     "firebase": "^12.2.1",
     "fraction.js": "^5.3.4",

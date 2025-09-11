@@ -1,19 +1,11 @@
-import {
-  Camera,
-  CameraResultType,
-  CameraSource,
-  Photo,
-} from "@capacitor/camera";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { Capacitor } from "@capacitor/core";
-import { Directory, Filesystem } from "@capacitor/filesystem";
-import { Preferences } from "@capacitor/preferences";
-import { onMounted, ref, watch } from "vue";
+import { ref } from "vue";
 
 const photos = ref<TakenPhoto[]>([]);
 
 export interface TakenPhoto {
-  filepath: string;
-  // photo: Photo;
+  filename: string;
   format: string;
   webviewPath?: string;
 }
@@ -26,20 +18,28 @@ export const usePhotoGallery = () => {
       await Camera.requestPermissions();
     }
 
-    const photo = await Camera.getPhoto({
-      quality: 100,
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-    });
+    try {
+      const photo = await Camera.getPhoto({
+        allowEditing: Capacitor.getPlatform() === "web" ? false : true,
+        quality: 100,
+        resultType: CameraResultType.Uri,
+        source:
+          Capacitor.getPlatform() === "web"
+            ? CameraSource.Prompt
+            : CameraSource.Camera,
+      });
 
-    const fileName = Date.now() + photo.format;
-    const savedFileImage: TakenPhoto = {
-      filepath: fileName,
-      format: photo.format,
-      webviewPath: photo.webPath,
-    };
+      const fileName = Date.now() + photo.format;
+      const savedFileImage: TakenPhoto = {
+        filename: fileName,
+        format: photo.format,
+        webviewPath: photo.webPath,
+      };
 
-    photos.value = [savedFileImage, ...photos.value];
+      photos.value = [savedFileImage, ...photos.value];
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const pickFromGallary = async () => {
@@ -53,14 +53,14 @@ export const usePhotoGallery = () => {
     }
 
     const galleryPhotos = await Camera.pickImages({
-      quality: 100,
       limit: 10,
+      quality: 100,
     });
 
     galleryPhotos.photos.forEach((photo) => {
       const fileName = Date.now() + photo.format;
       const savedFileImage: TakenPhoto = {
-        filepath: fileName,
+        filename: fileName,
         format: photo.format,
         webviewPath: photo.webPath,
       };
@@ -71,7 +71,7 @@ export const usePhotoGallery = () => {
 
   return {
     photos,
-    takePhoto,
     pickFromGallary,
+    takePhoto,
   };
 };

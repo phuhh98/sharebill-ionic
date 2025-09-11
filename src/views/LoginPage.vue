@@ -35,19 +35,12 @@ import {
   IonButton,
   IonContent,
   IonHeader,
-  IonIcon,
   IonInput,
   IonInputPasswordToggle,
-  IonLabel,
   IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
-import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
 import { useRouter } from "vue-router";
 
 import { signInWithEmailAndPassWord } from "@/firebase/auth";
@@ -57,8 +50,7 @@ const router = useRouter();
 const username = defineModel<string>("username");
 const password = defineModel<string>("password");
 
-const handleLoginFormSubmit = (event: SubmitEvent) => {
-  console.log(username, password);
+const handleLoginFormSubmit = () => {
   if (!username.value || !password.value) {
     return;
   }
@@ -68,7 +60,7 @@ const handleLoginFormSubmit = (event: SubmitEvent) => {
       router.push("/");
     })
     .catch((err) => {
-      console.log("login fail", err);
+      console.log("Login fail", err);
     });
 };
 </script>

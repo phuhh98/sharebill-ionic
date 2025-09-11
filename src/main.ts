@@ -37,8 +37,6 @@ import "@ionic/vue/css/palettes/dark.system.css";
 import "./theme/variables.css";
 import { useFirebaseAuth } from "./stores/auth";
 
-defineCustomElements(window);
-
 const pinia = createPinia();
 const app = createApp(App).use(IonicVue).use(router).use(pinia);
 
@@ -53,4 +51,5 @@ onAuthStateChanged(auth, (user) => {
 
 router.isReady().then(() => {
   app.mount("#app");
+  defineCustomElements(window);
 });

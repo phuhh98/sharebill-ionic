@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <ion-grid>
         <ion-row size>
-          <ion-col size="6" :key="photo.filepath" v-for="photo in photos">
+          <ion-col size="6" :key="photo.filename" v-for="photo in photos">
             <ion-thumbnail>
               <ion-img :src="photo.webviewPath"></ion-img>
             </ion-thumbnail>
@@ -40,35 +40,92 @@
           </ion-fab-button>
         </ion-fab>
       </template>
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button @click="handleImageUpload">
+          <ion-icon :icon="sparkles"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
+import { Capacitor } from "@capacitor/core";
 import {
   IonCol,
   IonContent,
   IonFab,
   IonFabButton,
+  IonFabList,
   IonGrid,
   IonHeader,
   IonIcon,
   IonImg,
-  IonLabel,
   IonPage,
   IonRow,
-  IonTabButton,
   IonThumbnail,
   IonTitle,
   IonToolbar,
-  IonFabList,
 } from "@ionic/vue";
-import { Capacitor } from "@capacitor/core";
-import { camera, close, images, trash, add } from "ionicons/icons";
+import { add, camera, images, sparkles } from "ionicons/icons";
 
-import { TakenPhoto, usePhotoGallery } from "@/composables/usePhotoGallery";
+import { usePhotoGallery } from "@/composables/usePhotoGallery";
+import { webPathToBlob } from "@/lib/blob";
+import { useFirebaseAuth } from "@/stores/auth";
 
-const { photos, takePhoto, pickFromGallary } = usePhotoGallery();
+import { useReceipt } from "../stores/receipt";
+import { ReceiptDataRes } from "../types/receipt.type";
+
+const { photos, pickFromGallary, takePhoto } = usePhotoGallery();
+const authStore = useFirebaseAuth();
+const receiptStore = useReceipt();
+
+async function handleImageUpload() {
+  const formBody = new FormData();
+  console.log(photos.value);
+
+  for (const photo of photos.value) {
+    if (!photo.webviewPath) {
+      continue;
+    }
+
+    const blob = await webPathToBlob(photo.webviewPath);
+
+    console.log(blob);
+    if (!blob) return;
+    formBody.append("files", blob, photo.filename);
+  }
+
+  console.log(formBody);
+
+  const res: Response | void = await fetch(
+    `${import.meta.env.VITE_BASE_API_URL}/llm/receipt-extractor`,
+    {
+      body: formBody,
+      headers: {
+        Authorization: `Bearer ${await authStore.user?.getIdToken()}`,
+      },
+      method: `POST`,
+    }
+  ).catch((err) => {
+    console.error(err);
+  });
+
+  if (!res) {
+    console.log("fetch receipt extractor failed");
+    return;
+  } else {
+    const data: ReceiptDataRes = await res.json();
+
+    if (data.status == 200) {
+      console.log("update store");
+      receiptStore.setReceiptData(data.data.receipt);
+    }
+
+    console.log("fetched data", data);
+  }
+}
 </script>
 
 <style>

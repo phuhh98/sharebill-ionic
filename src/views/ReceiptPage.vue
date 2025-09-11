@@ -12,13 +12,25 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Receipt tab" />
+      <pre class="tw:text-xs"
+        >{{ JSON.stringify(receiptData, null, 2) }}
+      </pre>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import { useReceipt } from "@/stores/receipt";
+import { storeToRefs } from "pinia";
+
+const receiptStore = useReceipt();
+const { receiptData } = storeToRefs(receiptStore);
 </script>
