@@ -1,25 +1,26 @@
-import { defineStore } from "pinia";
 import type { User } from "firebase/auth";
 
+import { defineStore } from "pinia";
+
 interface State {
-  currentUser: User | null;
+  currentUser: null | User;
 }
 
 export const useFirebaseAuth = defineStore("firebaseAuth", {
+  actions: {
+    clearUser() {
+      this.currentUser = null;
+    },
+    setUser(user: User) {
+      this.currentUser = user;
+    },
+  },
+  getters: {
+    isAuthenticated: (state) => !!state.currentUser,
+    user: (state) => state.currentUser,
+  },
   state: () =>
     ({
       currentUser: null,
     } as State),
-  getters: {
-    user: (state) => state.currentUser,
-    isAuthenticated: (state) => !!state.currentUser,
-  },
-  actions: {
-    setUser(user: User) {
-      this.currentUser = user;
-    },
-    clearUser() {
-      this.currentUser = null;
-    },
-  },
 });

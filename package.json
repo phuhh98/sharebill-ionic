@@ -10,6 +10,7 @@
     "test:e2e": "cypress run",
     "test:unit": "vitest",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run dev -- --open"
   },
@@ -47,11 +48,13 @@
     "@vue/test-utils": "^2.3.0",
     "cypress": "^13.5.0",
     "eslint": "^8.35.0",
+    "eslint-plugin-perfectionist": "^4.15.0",
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^22.1.0",
     "terser": "^5.4.0",
     "typescript": "~5.6.2",
     "vite": "^7.1.5",
+    "vite-plugin-pwa": "^1.0.3",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.1.10"
   },

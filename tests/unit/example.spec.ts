@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
-import Tab1Page from '@/views/Tab1Page.vue'
 import { describe, expect, test } from 'vitest'
+
+import Tab1Page from '@/views/Tab1Page.vue'
 
 describe('Tab1Page.vue', () => {
   test('renders tab 1 Tab1Page', () => {

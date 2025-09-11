@@ -1,7 +1,7 @@
 import {
-  GoogleAuthProvider,
   browserLocalPersistence,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,

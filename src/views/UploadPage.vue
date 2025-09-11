@@ -8,8 +8,10 @@
     <ion-content :fullscreen="true">
       <ion-grid>
         <ion-row>
-          <ion-col size="6" :key="photo.filepath" v-for="photo in photos">
-            <ion-img :src="photo.webviewPath"></ion-img>
+          <ion-col size="2" :key="photo.filepath" v-for="photo in photos">
+            <ion-thumbnail>
+              <ion-img :src="photo.webviewPath"></ion-img>
+            </ion-thumbnail>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -24,23 +26,25 @@
 
 <script setup lang="ts">
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonTabButton,
-  IonFabButton,
-  IonLabel,
-  IonFab,
-  IonIcon,
-  IonGrid,
-  IonRow,
   IonCol,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonGrid,
+  IonHeader,
+  IonIcon,
   IonImg,
+  IonLabel,
+  IonPage,
+  IonRow,
+  IonTabButton,
+  IonThumbnail,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/vue";
-import { camera, trash, close, images } from "ionicons/icons";
-import { usePhotoGallery, TakenPhoto } from "@/composables/usePhotoGallery";
+import { camera, close, images, trash } from "ionicons/icons";
+
+import { TakenPhoto, usePhotoGallery } from "@/composables/usePhotoGallery";
 
 const { photos, takePhoto } = usePhotoGallery();
 </script>

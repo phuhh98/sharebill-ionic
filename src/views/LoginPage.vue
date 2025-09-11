@@ -31,24 +31,25 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import {
+  IonButton,
+  IonContent,
   IonHeader,
-  IonToolbar,
+  IonIcon,
   IonInput,
   IonInputPasswordToggle,
-  IonButton,
-  IonTitle,
+  IonLabel,
+  IonPage,
+  IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonLabel,
-  IonIcon,
-  IonPage,
-  IonRouterOutlet,
-  IonContent,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/vue";
-import { cloudUpload, receipt, calculator, personAdd } from "ionicons/icons";
+import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
+import { useRouter } from "vue-router";
+
 import { signInWithEmailAndPassWord } from "@/firebase/auth";
 
 const router = useRouter();

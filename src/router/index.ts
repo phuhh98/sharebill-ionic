@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import TabsPage from "../views/TabsPage.vue";
+
 import { useFirebaseAuth } from "../stores/auth";
+import TabsPage from "../views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,12 +10,10 @@ const routes: Array<RouteRecordRaw> = [
     redirect: "/tabs/upload",
   },
   {
-    path: "/login",
     component: () => import("@/views/LoginPage.vue"),
+    path: "/login",
   },
   {
-    path: "/tabs/",
-    component: TabsPage,
     beforeEnter: (to, from, next) => {
       const store = useFirebaseAuth();
 
@@ -30,22 +29,24 @@ const routes: Array<RouteRecordRaw> = [
         redirect: "/tabs/upload",
       },
       {
-        path: "upload",
         component: () => import("@/views/UploadPage.vue"),
+        path: "upload",
       },
       {
-        path: "receipt",
         component: () => import("@/views/ReceiptPage.vue"),
+        path: "receipt",
       },
       {
-        path: "share",
         component: () => import("@/views/SharePage.vue"),
+        path: "share",
       },
       {
-        path: "payers",
         component: () => import("@/views/PayerPage.vue"),
+        path: "payers",
       },
     ],
+    component: TabsPage,
+    path: "/tabs/",
   },
 ];
 

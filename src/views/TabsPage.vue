@@ -29,13 +29,13 @@
 
 <script setup lang="ts">
 import {
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonLabel,
-  IonIcon,
-  IonPage,
-  IonRouterOutlet,
 } from "@ionic/vue";
-import { cloudUpload, receipt, calculator, personAdd } from "ionicons/icons";
+import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
 </script>
