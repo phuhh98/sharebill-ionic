@@ -69,6 +69,7 @@ import {
   IonToolbar,
 } from "@ionic/vue";
 import { add, camera, images, sparkles } from "ionicons/icons";
+import { v4 as uuidV4 } from "uuid";
 
 import { usePhotoGallery } from "@/composables/usePhotoGallery";
 import { webPathToBlob } from "@/lib/blob";
@@ -116,14 +117,21 @@ async function handleImageUpload() {
     console.log("fetch receipt extractor failed");
     return;
   } else {
-    const data: ReceiptDataRes = await res.json();
+    const resJSON: ReceiptDataRes = await res.json();
 
-    if (data.status == 200) {
-      console.log("update store");
-      receiptStore.setReceiptData(data.data.receipt);
+    if (resJSON.status == 200) {
+      const itemsWithIds = resJSON.data.receipt.items.map((item) => {
+        return {
+          ...item,
+          id: uuidV4(),
+        };
+      });
+
+      receiptStore.setReceiptData({
+        ...resJSON.data.receipt,
+        items: itemsWithIds,
+      });
     }
-
-    console.log("fetched data", data);
   }
 }
 </script>
