@@ -1,5 +1,3 @@
-import * as dfd from "danfojs";
-import * as mathjs from "mathjs";
 import { storeToRefs } from "pinia";
 import { reactive, watch } from "vue";
 
@@ -20,12 +18,17 @@ export const useCalculateShares = () => {
   const { itemIds, receiptData } = storeToRefs(receiptStore);
   const { shares } = storeToRefs(sharesStores);
 
-  let itemsDF = new dfd.DataFrame(receiptData.value.items);
+  // let itemsDF = new DataFrame(receiptData.value.items);
   const moneySharePerPayerIds = reactive<{ result: MoneySharePerPayerIds }>({
     result: {},
   });
 
-  function calculateShares() {
+  async function calculateShares() {
+    // const { DataFrame } = await import("danfojs");
+
+    const itemsDF = new dfd.DataFrame(receiptData.value.items);
+
+    const { gcd } = await import("mathjs");
     if (
       Object.keys(shares.value).length < 1 ||
       payerList.value.length < 2 ||
@@ -58,7 +61,7 @@ export const useCalculateShares = () => {
 
     const gcdDF = payerSharesDF.apply(
       (col: number[]) => {
-        return mathjs.gcd(...col);
+        return gcd(...col);
       },
       { axis: 1 }
     );
@@ -130,11 +133,11 @@ export const useCalculateShares = () => {
 
   watch(
     [receiptData.value.items, shares.value, payerIds],
-    () => {
-      itemsDF = new dfd.DataFrame(receiptData.value.items);
+    async () => {
+      // const itemsDF = new DataFrame(receiptData.value.items);
 
       try {
-        const result = calculateShares();
+        const result = await calculateShares();
         if (result) {
           moneySharePerPayerIds.result = result;
         }
@@ -145,5 +148,5 @@ export const useCalculateShares = () => {
     { immediate: true }
   );
 
-  return { itemsDF, moneySharePerPayerIds };
+  return { moneySharePerPayerIds };
 };
