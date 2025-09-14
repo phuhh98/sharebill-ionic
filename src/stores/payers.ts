@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 interface Payer {
-  id: number | string;
+  id: string;
   name: string;
 }
 
@@ -14,8 +14,8 @@ export const usePayers = defineStore("payers", {
     addPayer(payer: Payer) {
       this.payerList.push(payer);
     },
-    removePayer(payer: Payer) {
-      const index = this.payerList.findIndex((item) => item.id === payer.id);
+    removePayer(payerId: string) {
+      const index = this.payerList.findIndex((item) => item.id === payerId);
       if (index < 0) {
         throw new Error("Payer does not exist in store");
       }
@@ -27,5 +27,13 @@ export const usePayers = defineStore("payers", {
     return {
       payerList: [],
     } as State;
+  },
+  getters: {
+    payerIds: (state) => {
+      return state.payerList.reduce((acc, payer) => {
+        acc.push(payer.id);
+        return acc;
+      }, [] as string[]);
+    },
   },
 });

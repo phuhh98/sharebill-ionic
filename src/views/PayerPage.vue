@@ -35,7 +35,9 @@
           </ion-item>
           <ion-item-options side="end">
             <!-- <ion-item-option>Edit</ion-item-option> -->
-            <ion-item-option color="danger">Delete</ion-item-option>
+            <ion-item-option color="danger" @click="handleDeletePayer(payer.id)"
+              >Delete</ion-item-option
+            >
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
@@ -81,11 +83,15 @@ const handleAddPayer = () => {
 
   payerName.value = "";
 };
+
+const handleDeletePayer = (payerId: string) => {
+  payerStore.removePayer(payerId);
+};
 </script>
 
 <style>
 ion-input.addPayer {
-  --background: var(--tw-color-gray-400);
+  --background: var(--tw-color-gray-200);
   --padding-start: 1rem;
   --padding-end: 1rem;
 }

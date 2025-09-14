@@ -70,4 +70,12 @@ export const useReceipt = defineStore("receipt", {
   state: () => {
     return initState;
   },
+  getters: {
+    itemIds: (state) => {
+      return state.receiptData.items.reduce((acc, item) => {
+        acc.push(item.id);
+        return acc;
+      }, [] as string[]);
+    },
+  },
 });
