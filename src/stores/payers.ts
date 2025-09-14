@@ -23,11 +23,6 @@ export const usePayers = defineStore("payers", {
       this.payerList.splice(index, 1);
     },
   },
-  state: () => {
-    return {
-      payerList: [],
-    } as State;
-  },
   getters: {
     payerIds: (state) => {
       return state.payerList.reduce((acc, payer) => {
@@ -35,5 +30,10 @@ export const usePayers = defineStore("payers", {
         return acc;
       }, [] as string[]);
     },
+  },
+  state: () => {
+    return {
+      payerList: [],
+    } as State;
   },
 });

@@ -1,4 +1,3 @@
-import { share, time } from "ionicons/icons";
 import { defineStore } from "pinia";
 
 interface Share {
@@ -12,10 +11,6 @@ interface State {
 }
 
 export const useShares = defineStore("shares", {
-  state: () => {
-    return { shares: {} } as State;
-  },
-
   actions: {
     setInitShareWithPayersAndItemIds(payerIds: string[], itemIds: string[]) {
       itemIds.forEach((itemId) => {
@@ -26,6 +21,19 @@ export const useShares = defineStore("shares", {
       });
     },
 
+    setShare(payerId: string, itemId: string, share: number) {
+      this.shares[itemId][payerId] = share;
+    },
+
+    shareDecrease(payerId: string, itemId: string, amount: number = 1) {
+      if (this.shares[itemId][payerId] == 0) {
+        return;
+      }
+      this.shares[itemId][payerId] -= amount;
+    },
+    shareIncrease(payerId: string, itemId: string, amount: number = 1) {
+      this.shares[itemId][payerId] += amount;
+    },
     syncNewPayersOrItemIds(
       workingPayerIds: string[],
       workingItemIds: string[]
@@ -34,7 +42,7 @@ export const useShares = defineStore("shares", {
         const sharesState = this.shares;
         // combine list of iterate itemIds
         const combinedIterateItemIds = Array.from(
-          new Set([...workingItemIds, ...Object.keys(sharesState)])
+          new Set([...Object.keys(sharesState), ...workingItemIds])
         );
 
         const oldPayerIds = new Set<string>();
@@ -63,7 +71,7 @@ export const useShares = defineStore("shares", {
           }
 
           const combinedPayerIds = Array.from(
-            new Set([...workingPayerIds, ...Array.from(oldPayerIds)])
+            new Set([...Array.from(oldPayerIds), ...workingPayerIds])
           );
 
           if (combinedPayerIds.length < 1) {
@@ -87,12 +95,30 @@ export const useShares = defineStore("shares", {
         console.error(err);
       }
     },
-
-    setShare(payerId: string, itemId: string, share: number) {
-      this.shares[itemId][payerId] = share;
-    },
   },
+
   getters: {
+    indexedPayerShareSwapped(state) {
+      interface IndexedSwappedShareConfig {
+        // payer shares with ordered indexes
+        [payerId: string]: number[];
+      }
+
+      return (orderedtemIds: string[]) => {
+        const result: IndexedSwappedShareConfig = {};
+
+        Object.keys(state.shares[0]).forEach((payerId) => {
+          result[payerId] = [];
+
+          for (const [index, itemId] of orderedtemIds.entries()) {
+            result[payerId][index] = state.shares[itemId][payerId];
+          }
+        });
+
+        return result;
+      };
+    },
+
     payersSharesSwapped() {
       interface SwappedShareConfig {
         [payerId: string]: {
@@ -128,26 +154,8 @@ export const useShares = defineStore("shares", {
 
       return result;
     },
-
-    indexedPayerShareSwapped(state) {
-      interface IndexedSwappedShareConfig {
-        // payer shares with ordered indexes
-        [payerId: string]: number[];
-      }
-
-      return (orderedtemIds: string[]) => {
-        const result: IndexedSwappedShareConfig = {};
-
-        Object.keys(state.shares[0]).forEach((payerId) => {
-          result[payerId] = [];
-
-          for (const [index, itemId] of orderedtemIds.entries()) {
-            result[payerId][index] = state.shares[itemId][payerId];
-          }
-        });
-
-        return result;
-      };
-    },
+  },
+  state: () => {
+    return { shares: {} } as State;
   },
 });

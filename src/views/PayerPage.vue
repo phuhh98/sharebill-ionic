@@ -29,9 +29,23 @@
       <ion-list v-for="payer in payerStore.payerList" :key="payer.id">
         <ion-item-sliding>
           <ion-item class="payerItem">
-            <span class="tw:text-2xl">
-              {{ payer.name }}
-            </span>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <span class="tw:text-2xl">
+                    {{ payer.name }}
+                  </span>
+                </ion-col>
+                <ion-col>
+                  <span class="tw:text-xl">{{
+                    formatCurrency(
+                      receiptData.currency,
+                      moneySharePerPayerIds.result[payer.id]
+                    )
+                  }}</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-item>
           <ion-item-options side="end">
             <!-- <ion-item-option>Edit</ion-item-option> -->
@@ -48,7 +62,9 @@
 <script setup lang="ts">
 import {
   IonButton,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonInput,
   IonItem,
@@ -57,19 +73,29 @@ import {
   IonItemSliding,
   IonList,
   IonPage,
+  IonRow,
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
 import {} from "ionicons";
+import { storeToRefs } from "pinia";
 import { v4 as uuidV4 } from "uuid";
 
+import { useCalculateShares } from "@/composables/useCalculateShare";
+import { formatCurrency } from "@/lib/currency";
 import { usePayers } from "@/stores/payers";
+import { useReceipt } from "@/stores/receipt";
 
 const payerStore = usePayers();
+const receiptStore = useReceipt();
+
+const { receiptData } = storeToRefs(receiptStore);
 
 const payerName = defineModel("payerName", {
   type: String,
 });
+
+const { moneySharePerPayerIds } = useCalculateShares();
 
 const handleAddPayer = () => {
   if (!payerName.value) {
@@ -78,7 +104,7 @@ const handleAddPayer = () => {
 
   payerStore.addPayer({
     id: uuidV4(),
-    name: payerName.value,
+    name: payerName.value.trim(),
   });
 
   payerName.value = "";

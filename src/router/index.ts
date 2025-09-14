@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 
-import { useFirebaseAuth } from "../stores/auth";
+import { useFirebaseAuth } from "../stores/auth.ts";
 import TabsPage from "../views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [

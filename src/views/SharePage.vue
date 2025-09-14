@@ -6,13 +6,10 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Share tab</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ExploreContainer name="Share tab" />
+      <ion-text v-if="receiptData.items.length == 0">
+        Nothing to share right now
+      </ion-text>
+      <swipe-item-share></swipe-item-share>
     </ion-content>
   </ion-page>
 </template>
@@ -22,29 +19,28 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
-
-import ExploreContainer from "@/components/ExploreContainer.vue";
-
-import { usePayers } from "../stores/payers";
-import { useReceipt } from "../stores/receipt";
-import { useShares } from "../stores/shares";
-
-import { onUpdated, watch } from "vue";
 import { storeToRefs } from "pinia";
+import { watch } from "vue";
+
+import SwipeItemShare from "@/components/SwipeItemShare.vue";
+
+import { usePayers } from "../stores/payers.ts";
+import { useReceipt } from "../stores/receipt.ts";
+import { useShares } from "../stores/shares.ts";
 
 const payerStore = usePayers();
 const { payerIds } = storeToRefs(payerStore);
 const receiptStore = useReceipt();
-const { itemIds } = storeToRefs(receiptStore);
+const { itemIds, receiptData } = storeToRefs(receiptStore);
 const sharesStore = useShares();
 
 watch(
   [payerIds, itemIds],
   () => {
-    console.log("triggered");
     // sync share store with update from payer list and items list
     sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
   },

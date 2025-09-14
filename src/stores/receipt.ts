@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { ReceiptDetails, ReceiptItem } from "../types/receipt.type";
+import { ReceiptDetails, ReceiptItem } from "../types/receipt.type.ts";
 
 interface State {
   receiptData: ReceiptDetails;
@@ -32,7 +32,6 @@ export const useReceipt = defineStore("receipt", {
     },
 
     async recalculateTotal() {
-      console.log("call this");
       const receiptTotal = this.receiptData.items.reduce((acc, item) => {
         acc += item.price * item.quantity;
         return acc;
@@ -67,9 +66,6 @@ export const useReceipt = defineStore("receipt", {
       await this.recalculateTotal();
     },
   },
-  state: () => {
-    return initState;
-  },
   getters: {
     itemIds: (state) => {
       return state.receiptData.items.reduce((acc, item) => {
@@ -77,5 +73,8 @@ export const useReceipt = defineStore("receipt", {
         return acc;
       }, [] as string[]);
     },
+  },
+  state: () => {
+    return initState;
   },
 });

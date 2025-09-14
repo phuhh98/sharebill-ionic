@@ -69,11 +69,15 @@ import {
   IonToolbar,
 } from "@ionic/vue";
 import { add, camera, images, sparkles } from "ionicons/icons";
+import { storeToRefs } from "pinia";
 import { v4 as uuidV4 } from "uuid";
+import { useRouter } from "vue-router";
 
 import { usePhotoGallery } from "@/composables/usePhotoGallery";
 import { webPathToBlob } from "@/lib/blob";
 import { useFirebaseAuth } from "@/stores/auth";
+import { usePayers } from "@/stores/payers";
+import { useShares } from "@/stores/shares";
 
 import { useReceipt } from "../stores/receipt";
 import { ReceiptDataRes } from "../types/receipt.type";
@@ -81,10 +85,16 @@ import { ReceiptDataRes } from "../types/receipt.type";
 const { photos, pickFromGallary, takePhoto } = usePhotoGallery();
 const authStore = useFirebaseAuth();
 const receiptStore = useReceipt();
+const sharesStore = useShares();
+const payerStore = usePayers();
+
+const { itemIds } = storeToRefs(receiptStore);
+const { payerIds } = storeToRefs(payerStore);
+
+const router = useRouter();
 
 async function handleImageUpload() {
   const formBody = new FormData();
-  console.log(photos.value);
 
   for (const photo of photos.value) {
     if (!photo.webviewPath) {
@@ -97,8 +107,6 @@ async function handleImageUpload() {
     if (!blob) return;
     formBody.append("files", blob, photo.filename);
   }
-
-  console.log(formBody);
 
   const res: Response | void = await fetch(
     `${import.meta.env.VITE_BASE_API_URL}/llm/receipt-extractor`,
@@ -131,6 +139,9 @@ async function handleImageUpload() {
         ...resJSON.data.receipt,
         items: itemsWithIds,
       });
+
+      sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
+      router.push("/tabs/receipt");
     }
   }
 }
