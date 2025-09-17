@@ -145,6 +145,17 @@ async function handleImageUpload() {
     }
   }
 }
+
+// Defer loading danfojs to improve initial page load performance
+// Only load danfojs when user already seen this page
+const danfojsScriptTag = document.head.appendChild(
+  document.createElement("script")
+);
+danfojsScriptTag.setAttribute(
+  "src",
+  "https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.js"
+);
+danfojsScriptTag.setAttribute("defer", "true");
 </script>
 
 <style>
