@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run dev -- --open"
+    "ionic:serve": "npm run dev -- --open",
+    "bundle:analyze": "npx vite-bundle-analyzer --analyzerPort 8088"
   },
   "dependencies": {
     "@capacitor/action-sheet": "^7.0.2",
@@ -60,6 +61,7 @@
     "terser": "^5.4.0",
     "typescript": "~5.6.2",
     "vite": "^7.1.5",
+    "vite-bundle-analyzer": "^1.2.3",
     "vite-plugin-pwa": "^1.0.3",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.1.10"

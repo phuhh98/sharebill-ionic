@@ -1,11 +1,7 @@
 // Above the createApp() line
-import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import { IonicVue } from "@ionic/vue";
-import { onAuthStateChanged } from "firebase/auth";
 import { createPinia } from "pinia";
 import { createApp } from "vue";
-
-import { auth } from "@/firebase/config";
 
 import App from "./App.vue";
 import router from "./router";
@@ -17,21 +13,21 @@ import "@ionic/vue/css/normalize.css";
 import "@ionic/vue/css/structure.css";
 import "@ionic/vue/css/typography.css";
 /* Optional CSS utils that can be commented out */
-import "@ionic/vue/css/padding.css";
-import "@ionic/vue/css/float-elements.css";
-import "@ionic/vue/css/text-alignment.css";
-import "@ionic/vue/css/text-transformation.css";
-import "@ionic/vue/css/flex-utils.css";
-import "@ionic/vue/css/display.css";
+// import "@ionic/vue/css/padding.css";
+// import "@ionic/vue/css/float-elements.css";
+// import "@ionic/vue/css/text-alignment.css";
+// import "@ionic/vue/css/text-transformation.css";
+// import "@ionic/vue/css/flex-utils.css";
+// import "@ionic/vue/css/display.css";
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
  * For more info, please see:
  * https://ionicframework.com/docs/theming/dark-mode
  */
-/* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import "@ionic/vue/css/palettes/dark.system.css";
+// import "@ionic/vue/css/palettes/dark.always.css";
+import "@ionic/vue/css/palettes/dark.class.css";
+// import "@ionic/vue/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
@@ -40,16 +36,21 @@ import { useFirebaseAuth } from "./stores/auth";
 const pinia = createPinia();
 const app = createApp(App).use(IonicVue).use(router).use(pinia);
 
-onAuthStateChanged(auth, (user) => {
-  const store = useFirebaseAuth();
-  if (user) {
-    store.setUser(user);
-  } else {
-    store.clearUser();
-  }
-});
-
-router.isReady().then(() => {
+router.isReady().then(async () => {
   app.mount("#app");
+  const { defineCustomElements } = await import("@ionic/pwa-elements/loader");
+
   defineCustomElements(window);
+
+  const { onAuthStateChanged } = await import("firebase/auth");
+  const { auth } = await import("@/firebase/config");
+
+  onAuthStateChanged(auth, (user) => {
+    const store = useFirebaseAuth();
+    if (user) {
+      store.setUser(user);
+    } else {
+      store.clearUser();
+    }
+  });
 });
