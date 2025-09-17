@@ -14,6 +14,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
   },
   {
+    component: () => import("@/views/SignupPage.vue"),
+    path: "/signup",
+  },
+  {
     beforeEnter: (to, from, next) => {
       const store = useFirebaseAuth();
 

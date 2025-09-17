@@ -2,13 +2,13 @@
   <ion-page>
     <ion-header id="header">
       <ion-toolbar>
-        <ion-title>Login</ion-title>
+        <ion-title>Sign up</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <form
-        @submit.prevent="handleLoginFormSubmit"
-        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-12 tw:gap-2 tw:px-2"
+        @submit.prevent="handleSignUpFormSubmit"
+        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-10 tw:gap-2 tw:px-2"
       >
         <ion-input
           label="Username"
@@ -19,6 +19,7 @@
           @ion-blur="onUsernameBlur"
           error-text="Please enter a valid email address."
         ></ion-input>
+
         <ion-input
           type="password"
           label="Password"
@@ -30,13 +31,18 @@
         >
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
-        <ion-button type="submit" expand="block">Login</ion-button>
-        <ion-button
-          expand="block"
-          color="light"
-          @click.prevent="router.push('/signup')"
-          >Sign Up</ion-button
+        <ion-input
+          type="password"
+          label="Retype password"
+          v-model="retypePassword"
+          class="userinput"
+          :required="true"
+          error-text="Passwords do not match."
+          @ionBlur="onRetypePasswordBlur"
         >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <ion-button type="submit" expand="block">Sign Up and Login</ion-button>
       </form>
 
       <ion-toast
@@ -69,7 +75,10 @@ import {
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import { signInWithEmailAndPassWord } from "@/firebase/auth";
+import {
+  signInWithEmailAndPassWord,
+  signUpWithEmailAndPassWord,
+} from "@/firebase/auth";
 import { composeIonInputValidate, markIonTouched } from "@/lib/ionEvents";
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "@/lib/patterns";
 
@@ -77,11 +86,14 @@ const router = useRouter();
 
 const username = defineModel<string>("username");
 const password = defineModel<string>("password");
+const retypePassword = defineModel<string>("retypePassword");
 
 enum ToastMessage {
   LOGIN_FAIL = "Login failed. Please try again.",
   LOGIN_SUCCESS = "Login successful!",
   SAFE = "",
+  SIGNUP_FAIL = "Sign up failed. Please try again.",
+  SIGNUP_SUCCESS = "Sign up successful!",
 }
 
 const toast = reactive<{
@@ -99,17 +111,29 @@ const toastDismiss = () => {
   toast.message = "";
   toast.safe = true;
 };
-
-const handleLoginFormSubmit = async () => {
+const handleSignUpFormSubmit = async () => {
   if (!username.value || !password.value) {
     return;
   }
+
+  try {
+    await signUpWithEmailAndPassWord(username.value, password.value);
+    toast.isOpen = true;
+    toast.message = ToastMessage.SIGNUP_SUCCESS;
+    toast.safe = true;
+
+    router.push("/");
+  } catch (err) {
+    toast.isOpen = true;
+    toast.message = ToastMessage.SIGNUP_FAIL;
+    toast.safe = false;
+  }
+
   try {
     await signInWithEmailAndPassWord(username.value, password.value);
     toast.isOpen = true;
     toast.message = ToastMessage.LOGIN_SUCCESS;
     toast.safe = true;
-    router.push("/");
   } catch (err) {
     toast.isOpen = true;
     toast.message = ToastMessage.LOGIN_FAIL;
@@ -124,6 +148,10 @@ const validatePassword = (password: string) => {
 const validateEmail = (email: string) => {
   return EMAIL_PATTERN.test(email);
 };
+
+const validateRetypePassword = (retypePassword: string) => {
+  return retypePassword === password.value;
+};
 const onPasswordBlur = (event: IonInputCustomEvent<FocusEvent>) => {
   markIonTouched(event);
   composeIonInputValidate(validatePassword)(event);
@@ -132,6 +160,11 @@ const onPasswordBlur = (event: IonInputCustomEvent<FocusEvent>) => {
 const onUsernameBlur = (event: IonInputCustomEvent<FocusEvent>) => {
   markIonTouched(event);
   composeIonInputValidate(validateEmail)(event);
+};
+
+const onRetypePasswordBlur = (event: IonInputCustomEvent<FocusEvent>) => {
+  markIonTouched(event);
+  composeIonInputValidate(validateRetypePassword)(event);
 };
 </script>
 
