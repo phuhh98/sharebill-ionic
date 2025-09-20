@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Share tab</ion-title>
+        <ion-title>Shares</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">

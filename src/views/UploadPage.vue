@@ -2,19 +2,16 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Upload tab</ion-title>
+        <ion-title>Upload</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-grid>
-        <ion-row size>
-          <ion-col size="6" :key="photo.filename" v-for="photo in photos">
-            <ion-thumbnail>
-              <ion-img :src="photo.webviewPath"></ion-img>
-            </ion-thumbnail>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <ion-loading
+        :is-open="isLoaderOpen"
+        message="Please wait..."
+        spinner="circles"
+      ></ion-loading>
+      <image-thumbnails></image-thumbnails>
       <template v-if="Capacitor.getPlatform() !== 'web'">
         <ion-fab vertical="bottom" horizontal="center" slot="fixed">
           <ion-fab-button>
@@ -53,26 +50,24 @@
 <script setup lang="ts">
 import { Capacitor } from "@capacitor/core";
 import {
-  IonCol,
   IonContent,
   IonFab,
   IonFabButton,
   IonFabList,
-  IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
+  IonLoading,
   IonPage,
-  IonRow,
-  IonThumbnail,
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
 import { add, camera, images, sparkles } from "ionicons/icons";
 import { storeToRefs } from "pinia";
 import { v4 as uuidV4 } from "uuid";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+import ImageThumbnails from "@/components/ImageThumbnails.vue";
 import { usePhotoGallery } from "@/composables/usePhotoGallery";
 import { webPathToBlob } from "@/lib/blob";
 import { useFirebaseAuth } from "@/stores/auth";
@@ -93,7 +88,16 @@ const { payerIds } = storeToRefs(payerStore);
 
 const router = useRouter();
 
+const isLoaderOpen = ref(false);
+const showLoader = () => {
+  isLoaderOpen.value = true;
+};
+const hideLoader = () => {
+  isLoaderOpen.value = false;
+};
+
 async function handleImageUpload() {
+  showLoader();
   const formBody = new FormData();
 
   for (const photo of photos.value) {
@@ -103,7 +107,6 @@ async function handleImageUpload() {
 
     const blob = await webPathToBlob(photo.webviewPath);
 
-    console.log(blob);
     if (!blob) return;
     formBody.append("files", blob, photo.filename);
   }
@@ -122,7 +125,7 @@ async function handleImageUpload() {
   });
 
   if (!res) {
-    console.log("fetch receipt extractor failed");
+    hideLoader();
     return;
   } else {
     const resJSON: ReceiptDataRes = await res.json();
@@ -143,6 +146,8 @@ async function handleImageUpload() {
       sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
       router.push("/tabs/receipt");
     }
+
+    hideLoader();
   }
 }
 

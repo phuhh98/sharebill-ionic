@@ -53,7 +53,6 @@ export const useActions = () => {
           title: "Cancel",
         },
       ],
-      title: "Confirm Delete action",
     });
 
     switch (result.index) {

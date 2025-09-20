@@ -1,5 +1,6 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { Capacitor } from "@capacitor/core";
+import { v4 as uuidv4 } from "uuid";
 import { ref } from "vue";
 
 const photos = ref<TakenPhoto[]>([]);
@@ -7,6 +8,7 @@ const photos = ref<TakenPhoto[]>([]);
 export interface TakenPhoto {
   filename: string;
   format: string;
+  id: string;
   webviewPath?: string;
 }
 
@@ -33,6 +35,7 @@ export const usePhotoGallery = () => {
       const savedFileImage: TakenPhoto = {
         filename: fileName,
         format: photo.format,
+        id: uuidv4(),
         webviewPath: photo.webPath,
       };
 
@@ -62,6 +65,7 @@ export const usePhotoGallery = () => {
       const savedFileImage: TakenPhoto = {
         filename: fileName,
         format: photo.format,
+        id: uuidv4(),
         webviewPath: photo.webPath,
       };
 
@@ -69,9 +73,22 @@ export const usePhotoGallery = () => {
     });
   };
 
+  const clearPhotos = () => {
+    photos.value = [];
+  };
+
+  const removePhoto = (photo: TakenPhoto) => {
+    const index = photos.value.findIndex((p) => p.id === photo.id);
+    if (index === -1) return;
+
+    photos.value.splice(index, 1);
+  };
+
   return {
+    clearPhotos,
     photos,
     pickFromGallary,
+    removePhoto,
     takePhoto,
   };
 };
