@@ -9,6 +9,8 @@
     >
       <swiper-slide v-for="item in receiptData.items" :key="item.id">
         <ion-content>
+          <share-progress></share-progress>
+
           <ion-list>
             <ion-item-group>
               <ion-item-divider>
@@ -111,6 +113,7 @@ import { Pagination } from "swiper/modules";
 // import style for swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
 
+import ShareProgress from "@/components/ShareProgress.vue";
 import { formatCurrency } from "@/lib/currency";
 import { usePayers } from "@/stores/payers";
 import { useReceipt } from "@/stores/receipt";

@@ -1,5 +1,5 @@
 import { storeToRefs } from "pinia";
-import { reactive, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 
 import { usePayers } from "../stores/payers.ts";
 import { useReceipt } from "../stores/receipt.ts";
@@ -7,7 +7,6 @@ import { useShares } from "../stores/shares.ts";
 
 interface Calculation {
   moneySharePerPayerId: MoneySharePerPayerIds;
-  totalAmount: number;
 }
 
 /**
@@ -30,8 +29,8 @@ export const useCalculateShares = () => {
   // let itemsDF = new DataFrame(receiptData.value.items);
   const calculation = reactive<Calculation>({
     moneySharePerPayerId: {},
-    totalAmount: 0,
   });
+  const totalSharedAmount = ref(0);
 
   async function calculateShares() {
     // const { DataFrame } = await import("danfojs");
@@ -44,7 +43,10 @@ export const useCalculateShares = () => {
       payerList.value.length < 2 ||
       Object.keys(shares.value[itemIds.value[0]]).length < 2
     ) {
-      return;
+      return {
+        moneySharePerPayerId: {} as MoneySharePerPayerIds,
+        totalSharedAmount: 0,
+      };
     }
 
     const itemIdsInOrdered = itemsDF.column("id");
@@ -139,24 +141,22 @@ export const useCalculateShares = () => {
     );
 
     return {
-      moneySharePerPayerIds,
-      totalAmount: calculateSharesDF
-        .column(CALCULATE_DF_COLUMNS.totalPrice)
-        .sum(),
+      moneySharePerPayerId: moneySharePerPayerIds,
+      totalSharedAmount: Object.values(moneySharePerPayerIds).reduce(
+        (a, b) => a + b,
+        0
+      ),
     };
   }
 
   watch(
     [receiptData.value.items, shares.value, payerIds],
     async () => {
-      // const itemsDF = new DataFrame(receiptData.value.items);
-
       try {
         const result = await calculateShares();
         if (result) {
-          calculation.moneySharePerPayerId = result.moneySharePerPayerIds;
-
-          console.log("share result", result);
+          calculation.moneySharePerPayerId = result.moneySharePerPayerId;
+          totalSharedAmount.value = result.totalSharedAmount;
         }
       } catch (err) {
         console.error(err);
@@ -165,5 +165,5 @@ export const useCalculateShares = () => {
     { immediate: true }
   );
 
-  return { calculation };
+  return { calculation, totalSharedAmount };
 };

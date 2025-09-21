@@ -6,11 +6,6 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Your receipt</ion-title>
-        </ion-toolbar>
-      </ion-header>
       <shares-pie-chart></shares-pie-chart>
 
       <receipt-item-list></receipt-item-list>

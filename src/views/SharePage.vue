@@ -9,7 +9,7 @@
       <ion-text v-if="receiptData.items.length == 0">
         Nothing to share right now
       </ion-text>
-      <swipe-item-share></swipe-item-share>
+      <swipe-item-share v-if="receiptData.items.length != 0"></swipe-item-share>
     </ion-content>
   </ion-page>
 </template>

@@ -145,7 +145,6 @@ const handleItemClick = async (itemId: string) => {
   switch (selectedOption) {
     case ReceiptItemActionsEnum.Edit:
       handleEditModalOpen(itemId);
-      console.log("select edit");
       break;
     case ReceiptItemActionsEnum.Remove:
       receiptStore.removeAnItem(itemId);

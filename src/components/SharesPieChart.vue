@@ -45,8 +45,15 @@ const { payerIdNameMap } = storeToRefs(payersStore);
 const { calculation } = useCalculateShares();
 
 const CHART_ID = "shareChart";
+const NOT_SHARED_KEY = "Not shared";
+
+interface ChartDataPoint {
+  id: string;
+  value: number;
+}
 
 interface ShareData {
+  id: string;
   name: string;
   value: number;
 }
@@ -59,6 +66,7 @@ const shareData = computed<ShareData[]>(() => {
 
   reducedShareData.push(
     ...Object.entries(moneySharePerPayerId).map(([payerId, shareAmount]) => ({
+      id: payerId,
       name: payerIdNameMap.value[payerId] || "Unknown",
       value: math.round((shareAmount / totalReceiptPrice.value) * 100 || 0, 2),
     }))
@@ -70,7 +78,8 @@ const shareData = computed<ShareData[]>(() => {
   );
 
   reducedShareData.push({
-    name: "Unshared",
+    id: NOT_SHARED_KEY,
+    name: NOT_SHARED_KEY,
     value:
       totalReceiptPrice.value === 0
         ? 100
@@ -85,12 +94,15 @@ const shareData = computed<ShareData[]>(() => {
   return reducedShareData;
 });
 
-const chartData = computed<ChartData<"pie">>(() => {
+const chartData = computed<ChartData<"pie", ChartDataPoint[]>>(() => {
   return {
     datasets: [
       {
         // backgroundColor: cycledArray(COLLOR_PALETTE, shareData.value.length),
-        data: shareData.value.map((data) => data.value),
+        data: shareData.value.map((data) => ({
+          id: data.id,
+          value: data.value,
+        })),
         label: "Shares",
       },
     ],
@@ -100,6 +112,9 @@ const chartData = computed<ChartData<"pie">>(() => {
 
 const chartOptions: ChartOptions<"pie"> = {
   maintainAspectRatio: false,
+  parsing: {
+    key: "value",
+  },
   plugins: {
     legend: {
       position: "left",
@@ -114,11 +129,21 @@ const chartOptions: ChartOptions<"pie"> = {
     tooltip: {
       callbacks: {
         afterLabel: function (context) {
-          const value = context.parsed || 0;
-          const amount = (value / 100) * (totalReceiptPrice.value || 0);
+          if ((context.raw as ChartDataPoint).id === NOT_SHARED_KEY) {
+            const value = context.parsed || 0;
+            const amount = (value / 100) * (totalReceiptPrice.value || 0);
+
+            return ` Amount: ${formatCurrency(
+              receiptData.value.currency,
+              math.round(amount, 3) || 0
+            )}`;
+          }
+
           return ` Amount: ${formatCurrency(
             receiptData.value.currency,
-            math.round(amount, 2)
+            calculation.moneySharePerPayerId[
+              (context.raw as ChartDataPoint).id
+            ] || 0
           )}`;
         },
         label: function (context) {
