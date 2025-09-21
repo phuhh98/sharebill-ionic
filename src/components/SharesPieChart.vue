@@ -15,7 +15,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import * as math from "mathjs";
+import { round } from "mathjs";
 import { storeToRefs } from "pinia";
 import {
   computed,
@@ -68,7 +68,7 @@ const shareData = computed<ShareData[]>(() => {
     ...Object.entries(moneySharePerPayerId).map(([payerId, shareAmount]) => ({
       id: payerId,
       name: payerIdNameMap.value[payerId] || "Unknown",
-      value: math.round((shareAmount / totalReceiptPrice.value) * 100 || 0, 2),
+      value: round((shareAmount / totalReceiptPrice.value) * 100 || 0, 2),
     }))
   );
   // now calculate unshared amount
@@ -83,7 +83,7 @@ const shareData = computed<ShareData[]>(() => {
     value:
       totalReceiptPrice.value === 0
         ? 100
-        : math.round(
+        : round(
             ((totalReceiptPrice.value - totalSharedAmount) /
               totalReceiptPrice.value) *
               100,
@@ -135,7 +135,7 @@ const chartOptions: ChartOptions<"pie"> = {
 
             return ` Amount: ${formatCurrency(
               receiptData.value.currency,
-              math.round(amount, 3) || 0
+              round(amount, 3) || 0
             )}`;
           }
 

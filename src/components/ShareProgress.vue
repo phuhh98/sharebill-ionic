@@ -17,7 +17,7 @@
 </template>
 <script setup lang="ts">
 import { IonCol, IonGrid, IonProgressBar, IonRow, IonText } from "@ionic/vue";
-import * as math from "mathjs";
+import { round } from "mathjs";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
@@ -39,7 +39,7 @@ enum CheckPoint {
 const progressColor = computed<
   InstanceType<typeof IonProgressBar>["$props"]["color"]
 >(() => {
-  if (math.round(progress.value, 2) >= CheckPoint.Full) {
+  if (round(progress.value, 2) >= CheckPoint.Full) {
     return "success";
   } else if (progress.value >= CheckPoint.Major) {
     return "primary";
