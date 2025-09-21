@@ -40,7 +40,7 @@
                   <span class="tw:text-xl">{{
                     formatCurrency(
                       receiptData.currency,
-                      moneySharePerPayerIds.result[payer.id]
+                      calculation.moneySharePerPayerId[payer.id]
                     )
                   }}</span>
                 </ion-col>
@@ -95,7 +95,7 @@ const payerName = defineModel("payerName", {
   type: String,
 });
 
-const { moneySharePerPayerIds } = useCalculateShares();
+const { calculation } = useCalculateShares();
 
 const handleAddPayer = () => {
   if (!payerName.value) {

@@ -11,6 +11,8 @@
           <ion-title size="large">Your receipt</ion-title>
         </ion-toolbar>
       </ion-header>
+      <shares-pie-chart></shares-pie-chart>
+
       <receipt-item-list></receipt-item-list>
     </ion-content>
   </ion-page>
@@ -24,6 +26,8 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
+
+import SharesPieChart from "@/components/SharesPieChart.vue";
 
 import ReceiptItemList from "../components/ReceiptItemList.vue";
 </script>

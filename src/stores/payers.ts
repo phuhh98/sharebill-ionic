@@ -24,6 +24,16 @@ export const usePayers = defineStore("payers", {
     },
   },
   getters: {
+    payerIdNameMap: (state) => {
+      interface PayerIdNameMap {
+        [id: string]: string;
+      }
+
+      return state.payerList.reduce((acc, payer) => {
+        acc[payer.id] = payer.name;
+        return acc;
+      }, {} as PayerIdNameMap);
+    },
     payerIds: (state) => {
       return state.payerList.reduce((acc, payer) => {
         acc.push(payer.id);

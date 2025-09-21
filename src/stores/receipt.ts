@@ -73,6 +73,9 @@ export const useReceipt = defineStore("receipt", {
         return acc;
       }, [] as string[]);
     },
+    totalReceiptPrice: (state) => {
+      return state.receiptData.total_receipt_price;
+    },
   },
   state: () => {
     return initState;

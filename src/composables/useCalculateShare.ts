@@ -5,6 +5,15 @@ import { usePayers } from "../stores/payers.ts";
 import { useReceipt } from "../stores/receipt.ts";
 import { useShares } from "../stores/shares.ts";
 
+interface Calculation {
+  moneySharePerPayerId: MoneySharePerPayerIds;
+  totalAmount: number;
+}
+
+/**
+ * Money share per payerId
+ * with key is payerId, value is money amount
+ */
 interface MoneySharePerPayerIds {
   [payerId: string]: number;
 }
@@ -19,8 +28,9 @@ export const useCalculateShares = () => {
   const { shares } = storeToRefs(sharesStores);
 
   // let itemsDF = new DataFrame(receiptData.value.items);
-  const moneySharePerPayerIds = reactive<{ result: MoneySharePerPayerIds }>({
-    result: {},
+  const calculation = reactive<Calculation>({
+    moneySharePerPayerId: {},
+    totalAmount: 0,
   });
 
   async function calculateShares() {
@@ -128,7 +138,12 @@ export const useCalculateShares = () => {
       {} as MoneySharePerPayerIds
     );
 
-    return moneySharePerPayerIds;
+    return {
+      moneySharePerPayerIds,
+      totalAmount: calculateSharesDF
+        .column(CALCULATE_DF_COLUMNS.totalPrice)
+        .sum(),
+    };
   }
 
   watch(
@@ -139,7 +154,9 @@ export const useCalculateShares = () => {
       try {
         const result = await calculateShares();
         if (result) {
-          moneySharePerPayerIds.result = result;
+          calculation.moneySharePerPayerId = result.moneySharePerPayerIds;
+
+          console.log("share result", result);
         }
       } catch (err) {
         console.error(err);
@@ -148,5 +165,5 @@ export const useCalculateShares = () => {
     { immediate: true }
   );
 
-  return { moneySharePerPayerIds };
+  return { calculation };
 };
