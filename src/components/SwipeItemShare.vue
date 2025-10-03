@@ -174,6 +174,25 @@ onMounted(() => {
 
     if (itemId != null && route.query.itemId == undefined) {
       router.replace(`/tabs/share?itemId=${itemId}`);
+      return;
+    }
+
+    /**
+     * Case where navigate from item in receipt page to share page
+     * In this case, the route query param will have the itemId
+     */
+    if (route.query.itemId) {
+      const itemIndex = receiptData.value.items.findIndex(
+        (item) => item.id === route.query.itemId
+      );
+
+      if (itemIndex !== -1) {
+        setTimeout(() => {
+          swiperRef.value?.$el.swiper.slideTo(itemIndex);
+          swiperRef.value?.$el.swiper.update();
+        }, 0);
+      }
+      return;
     }
   }
 });
