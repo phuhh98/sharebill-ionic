@@ -3,6 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 
 import { useFirebaseAuth } from "../stores/auth.ts";
 import TabsPage from "../views/TabsPage.vue";
+import SharePage from "@/views/SharePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -41,7 +42,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "receipt",
       },
       {
-        component: () => import("@/views/SharePage.vue"),
+        // component: () => import("@/views/SharePage.vue"),
+        component: SharePage,
         path: "share",
       },
       {

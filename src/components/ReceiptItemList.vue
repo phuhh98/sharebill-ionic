@@ -122,6 +122,7 @@ import { addCircle } from "ionicons/icons";
 import { storeToRefs } from "pinia";
 import { v4 as uuidV4 } from "uuid";
 import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useActions } from "@/composables/useActions";
 import { useReceipt } from "@/stores/receipt";
@@ -129,6 +130,8 @@ import { useReceipt } from "@/stores/receipt";
 import { formatCurrency } from "../lib/currency";
 import { ReceiptItem } from "../types/receipt.type";
 import ItemEditModal from "./ItemEditModal.vue";
+
+const router = useRouter();
 
 const receiptCurrencySymbol = computed(
   () => getSymbolFromCurrency(receiptData.value.currency) ?? ""
@@ -145,6 +148,9 @@ const handleItemClick = async (itemId: string) => {
   switch (selectedOption) {
     case ReceiptItemActionsEnum.Edit:
       handleEditModalOpen(itemId);
+      break;
+    case ReceiptItemActionsEnum.GoToShare:
+      router.push(`/tabs/share?itemId=${itemId}`);
       break;
     case ReceiptItemActionsEnum.Remove:
       receiptStore.removeAnItem(itemId);

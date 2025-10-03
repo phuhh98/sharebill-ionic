@@ -2,9 +2,10 @@ import { ActionSheet, ActionSheetButtonStyle } from "@capacitor/action-sheet";
 
 export const useActions = () => {
   enum ReceiptItemActionsEnum {
-    Cancel = 2,
+    Cancel = 3,
     Edit = 0,
-    Remove = 1,
+    GoToShare = 1,
+    Remove = 2,
   }
 
   enum ConfirmDeleteActionsEnum {
@@ -18,6 +19,10 @@ export const useActions = () => {
       options: [
         {
           title: "Edit",
+        },
+        {
+          style: ActionSheetButtonStyle.Default,
+          title: "Go to share",
         },
         {
           style: ActionSheetButtonStyle.Destructive,
@@ -34,6 +39,8 @@ export const useActions = () => {
     switch (result.index) {
       case ReceiptItemActionsEnum.Edit:
         return ReceiptItemActionsEnum.Edit;
+      case ReceiptItemActionsEnum.GoToShare:
+        return ReceiptItemActionsEnum.GoToShare;
       case ReceiptItemActionsEnum.Remove:
         return ReceiptItemActionsEnum.Remove;
       default:
