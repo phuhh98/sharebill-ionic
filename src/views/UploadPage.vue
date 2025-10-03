@@ -143,6 +143,8 @@ async function handleImageUpload() {
         items: itemsWithIds,
       });
 
+      receiptStore.recalculateTotal();
+
       sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
       router.push("/tabs/receipt");
     }
