@@ -39,16 +39,7 @@
         >
       </form>
 
-      <ion-toast
-        :is-open="toast.isOpen"
-        :message="toast.message"
-        :duration="2500"
-        @didDismiss="toastDismiss"
-        :color="toast.safe ? 'success' : 'danger'"
-        swipe-gesture="vertical"
-        position-anchor="header"
-        position="top"
-      ></ion-toast>
+      <app-toast></app-toast>
     </ion-content>
   </ion-page>
 </template>
@@ -63,20 +54,22 @@ import {
   IonInputPasswordToggle,
   IonPage,
   IonTitle,
-  IonToast,
   IonToolbar,
 } from "@ionic/vue";
-import { reactive } from "vue";
 import { useRouter } from "vue-router";
 
+import AppToast from "@/components/AppToast.vue";
 import { signInWithEmailAndPassWord } from "@/firebase/auth";
 import { composeIonInputValidate, markIonTouched } from "@/lib/ionEvents";
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "@/lib/patterns";
+import { useToastStore } from "@/stores/toast";
 
 const router = useRouter();
 
 const username = defineModel<string>("username");
 const password = defineModel<string>("password");
+
+const toastStore = useToastStore();
 
 enum ToastMessage {
   LOGIN_FAIL = "Login failed. Please try again.",
@@ -84,36 +77,22 @@ enum ToastMessage {
   SAFE = "",
 }
 
-const toast = reactive<{
-  isOpen: boolean;
-  message: string | ToastMessage;
-  safe: boolean;
-}>({
-  isOpen: false,
-  message: ToastMessage.SAFE,
-  safe: true,
-});
-
-const toastDismiss = () => {
-  toast.isOpen = false;
-  toast.message = "";
-  toast.safe = true;
-};
-
 const handleLoginFormSubmit = async () => {
   if (!username.value || !password.value) {
     return;
   }
   try {
     await signInWithEmailAndPassWord(username.value, password.value);
-    toast.isOpen = true;
-    toast.message = ToastMessage.LOGIN_SUCCESS;
-    toast.safe = true;
+    toastStore.showToast({
+      message: ToastMessage.LOGIN_SUCCESS,
+      safe: true,
+    });
     router.push("/");
   } catch (err) {
-    toast.isOpen = true;
-    toast.message = ToastMessage.LOGIN_FAIL;
-    toast.safe = false;
+    toastStore.showToast({
+      message: ToastMessage.LOGIN_FAIL,
+      safe: false,
+    });
   }
 };
 
