@@ -27,10 +27,9 @@ import {
 } from "vue";
 
 import { useCalculateShares } from "@/composables/useCalculateShare";
+import { formatCurrency } from "@/lib/currency";
 import { usePayers } from "@/stores/payers";
 import { useReceipt } from "@/stores/receipt";
-
-import { formatCurrency } from "../lib/currency";
 
 const ctx = ref<HTMLCanvasElement | null>(null);
 

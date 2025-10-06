@@ -70,18 +70,28 @@ import { useRouter } from "vue-router";
 import ImageThumbnails from "@/components/ImageThumbnails.vue";
 import { usePhotoGallery } from "@/composables/usePhotoGallery";
 import { webPathToBlob } from "@/lib/blob";
+import { receiptDataResSchema } from "@/lib/validation/receiptDataRes";
 import { useFirebaseAuth } from "@/stores/auth";
 import { usePayers } from "@/stores/payers";
+import { useReceipt } from "@/stores/receipt";
 import { useShares } from "@/stores/shares";
-
-import { useReceipt } from "../stores/receipt";
-import { ReceiptDataRes } from "../types/receipt.type";
+import { useToastStore } from "@/stores/toast";
+import { ReceiptDataRes } from "@/types/receipt.type";
 
 const { photos, pickFromGallary, takePhoto } = usePhotoGallery();
 const authStore = useFirebaseAuth();
 const receiptStore = useReceipt();
 const sharesStore = useShares();
 const payerStore = usePayers();
+const toastStore = useToastStore();
+
+enum ToastMessages {
+  NO_RESPONSE = "Failed to upload images - no response. Please try again.",
+  SERVER_ERROR = "Server error. Please try again.",
+  SERVER_ERROR_INVALID_RESPONSE = "Server error - invalid response. Please try again.",
+  UPLOAD_FAIL = "Failed to upload images. Please try again.",
+  UPLOAD_SUCCESS = "Images uploaded successfully!",
+}
 
 const { itemIds } = storeToRefs(receiptStore);
 const { payerIds } = storeToRefs(payerStore);
@@ -120,15 +130,35 @@ async function handleImageUpload() {
       },
       method: `POST`,
     }
-  ).catch((err) => {
-    console.error(err);
+  ).catch((_) => {
+    hideLoader();
+    toastStore.showToast({
+      message: ToastMessages.UPLOAD_FAIL,
+      safe: false,
+    });
   });
 
   if (!res) {
     hideLoader();
+    toastStore.showToast({
+      message: ToastMessages.NO_RESPONSE,
+      safe: false,
+    });
     return;
   } else {
     const resJSON: ReceiptDataRes = await res.json();
+
+    // Try to parse the response to ensure it matches the expected schema
+    try {
+      await receiptDataResSchema.parse(resJSON);
+    } catch (e) {
+      hideLoader();
+      toastStore.showToast({
+        message: ToastMessages.SERVER_ERROR_INVALID_RESPONSE,
+        safe: false,
+      });
+      return;
+    }
 
     if (resJSON.status == 200) {
       const itemsWithIds = resJSON.data.receipt.items.map((item) => {
@@ -147,9 +177,18 @@ async function handleImageUpload() {
 
       sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
       router.push("/tabs/receipt");
+    } else {
+      toastStore.showToast({
+        message: ToastMessages.SERVER_ERROR,
+        safe: false,
+      });
     }
 
     hideLoader();
+    toastStore.showToast({
+      message: ToastMessages.UPLOAD_SUCCESS,
+      safe: true,
+    });
   }
 }
 

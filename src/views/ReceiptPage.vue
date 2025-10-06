@@ -22,7 +22,6 @@ import {
   IonToolbar,
 } from "@ionic/vue";
 
+import ReceiptItemList from "@/components/ReceiptItemList.vue";
 import SharesPieChart from "@/components/SharesPieChart.vue";
-
-import ReceiptItemList from "../components/ReceiptItemList.vue";
 </script>

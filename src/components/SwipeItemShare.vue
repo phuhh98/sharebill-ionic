@@ -126,8 +126,7 @@ import "swiper/css/pagination";
 import { formatCurrency } from "@/lib/currency";
 import { usePayers } from "@/stores/payers";
 import { useReceipt } from "@/stores/receipt";
-
-import { useShares } from "../stores/shares";
+import { useShares } from "@/stores/shares";
 
 const router = useRouter();
 const route = useRoute();

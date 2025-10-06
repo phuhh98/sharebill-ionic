@@ -44,8 +44,6 @@
         </ion-input>
         <ion-button type="submit" expand="block">Sign Up and Login</ion-button>
       </form>
-
-      <app-toast></app-toast>
     </ion-content>
   </ion-page>
 </template>
@@ -64,7 +62,6 @@ import {
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
 
-import AppToast from "@/components/AppToast.vue";
 import {
   signInWithEmailAndPassWord,
   signUpWithEmailAndPassWord,

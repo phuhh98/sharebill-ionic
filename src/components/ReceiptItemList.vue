@@ -125,10 +125,10 @@ import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useActions } from "@/composables/useActions";
+import { formatCurrency } from "@/lib/currency";
 import { useReceipt } from "@/stores/receipt";
+import { ReceiptItem } from "@/types/receipt.type";
 
-import { formatCurrency } from "../lib/currency";
-import { ReceiptItem } from "../types/receipt.type";
 import ItemEditModal from "./ItemEditModal.vue";
 
 const router = useRouter();

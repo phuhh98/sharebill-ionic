@@ -38,8 +38,6 @@
           >Sign Up</ion-button
         >
       </form>
-
-      <app-toast></app-toast>
     </ion-content>
   </ion-page>
 </template>
@@ -58,7 +56,6 @@ import {
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
 
-import AppToast from "@/components/AppToast.vue";
 import { signInWithEmailAndPassWord } from "@/firebase/auth";
 import { composeIonInputValidate, markIonTouched } from "@/lib/ionEvents";
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "@/lib/patterns";
@@ -88,11 +85,13 @@ const handleLoginFormSubmit = async () => {
       safe: true,
     });
     router.push("/");
+    return;
   } catch (err) {
     toastStore.showToast({
       message: ToastMessage.LOGIN_FAIL,
       safe: false,
     });
+    return;
   }
 };
 

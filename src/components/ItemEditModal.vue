@@ -62,8 +62,7 @@ import {
 import { computed, defineProps, toRef } from "vue";
 
 import { useReceipt } from "@/stores/receipt";
-
-import { ReceiptItem } from "../types/receipt.type";
+import { ReceiptItem } from "@/types/receipt.type";
 
 const isItemEditModalOpen = defineModel<boolean>("open", {
   type: Boolean,

@@ -27,10 +27,9 @@ import { storeToRefs } from "pinia";
 import { watch } from "vue";
 
 import SwipeItemShare from "@/components/SwipeItemShare.vue";
-
-import { usePayers } from "../stores/payers.ts";
-import { useReceipt } from "../stores/receipt.ts";
-import { useShares } from "../stores/shares.ts";
+import { usePayers } from "@/stores/payers.ts";
+import { useReceipt } from "@/stores/receipt.ts";
+import { useShares } from "@/stores/shares.ts";
 
 const payerStore = usePayers();
 const { payerIds } = storeToRefs(payerStore);

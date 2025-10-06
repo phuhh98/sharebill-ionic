@@ -44,7 +44,8 @@
     "tailwindcss": "^4.1.13",
     "uuid": "^13.0.0",
     "vue": "^3.3.0",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@capacitor/cli": "7.4.3",

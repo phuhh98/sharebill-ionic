@@ -21,8 +21,8 @@ import { round } from "mathjs";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
-import { useCalculateShares } from "../composables/useCalculateShare";
-import { useReceipt } from "../stores/receipt";
+import { useCalculateShares } from "@/composables/useCalculateShare";
+import { useReceipt } from "@/stores/receipt";
 
 const receiptStore = useReceipt();
 const { receiptData } = storeToRefs(receiptStore);

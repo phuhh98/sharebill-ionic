@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { ReceiptDetails, ReceiptItem } from "../types/receipt.type.ts";
+import { ReceiptDetails, ReceiptItem } from "@/types/receipt.type.ts";
 
 interface State {
   receiptData: ReceiptDetails;

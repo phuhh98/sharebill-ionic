@@ -1,9 +1,9 @@
 import { storeToRefs } from "pinia";
 import { reactive, ref, watch } from "vue";
 
-import { usePayers } from "../stores/payers.ts";
-import { useReceipt } from "../stores/receipt.ts";
-import { useShares } from "../stores/shares.ts";
+import { usePayers } from "@/stores/payers.ts";
+import { useReceipt } from "@/stores/receipt.ts";
+import { useShares } from "@/stores/shares.ts";
 
 interface Calculation {
   moneySharePerPayerId: MoneySharePerPayerIds;

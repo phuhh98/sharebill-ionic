@@ -23,6 +23,7 @@
           <ion-label>Payers</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
+      <app-toast></app-toast>
     </ion-tabs>
   </ion-page>
 </template>
@@ -38,4 +39,6 @@ import {
   IonTabs,
 } from "@ionic/vue";
 import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
+
+import AppToast from "@/components/AppToast.vue";
 </script>
