@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.4.0...sharebill-ionic-v0.5.0) (2025-11-25)
+
+
+### Features
+
+* artifact ([989858a](https://github.com/phuhh98/sharebill-ionic/commit/989858a9c1ee4cf81f52537c741f2ed6972982ce))
+
 ## [0.4.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.3.0...sharebill-ionic-v0.4.0) (2025-11-25)
 
 
