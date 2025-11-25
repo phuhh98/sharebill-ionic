@@ -16,7 +16,7 @@
         { "type": "docs", "hidden": true }
       ],
       "branch-configurations": {
-        "main": {
+        "master": {
           "prerelease": true,
           "prerelease-type": "dev"
         },
