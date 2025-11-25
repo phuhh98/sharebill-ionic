@@ -100,6 +100,4 @@ jobs:
           tag_name: ${{ env.VERSION_TAG }}
           # The files/directories to attach.
           # We zip the output directory for a single file download.
-          files: |
-            ${{ env.VITE_OUTPUT_DIR }}/*
-            # You can add more files here if needed
+          files: ${{ env.ARTIFACT_FILENAME }}
