@@ -64,7 +64,7 @@ jobs:
       - name: ⚙️ Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: 18 # Use your required Node version
+          node-version: 22 # Use your required Node version
           cache: "npm"
 
       - name: 📦 Install Dependencies
