@@ -37,8 +37,10 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          release-type: simple
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
+          skip-github-pull-request: true
+          config-file: .github/release-please-config-master.json
+          manifest-file: .github/.release-please-manifest-master.json
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
   build_and_deploy:

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "package-name": "sharebill-ionic",
+      "release-type": "simple",
+      "changelog-sections": [
+        { "type": "feat", "section": "✨ Features", "hidden": false },
+        { "type": "fix", "section": "🐛 Bug Fixes", "hidden": false },
+        { "type": "perf", "section": "⚡ Performance", "hidden": false },
+        { "type": "chore", "hidden": true },
+        { "type": "ci", "hidden": true },
+        { "type": "docs", "hidden": true }
+      ],
+      "prerelease": true,
+      "prerelease-type": "dev"
+    }
+  }
+}
