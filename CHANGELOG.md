@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.7.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.6.0...sharebill-ionic-v0.7.0) (2025-11-25)
+
+
+### ✨ Features
+
+* adjust PR title ([fe86f3e](https://github.com/phuhh98/sharebill-ionic/commit/fe86f3e794247fc5e3da0422e3d5914aec1d3605))
+* update artifact name ([19a204a](https://github.com/phuhh98/sharebill-ionic/commit/19a204acdfc4fcdf49944a16ede8edda46c75484))
+* update config ([11df352](https://github.com/phuhh98/sharebill-ionic/commit/11df352ac5ee8c3e6751e98415624d5219203b20))
+* update config ([7767cba](https://github.com/phuhh98/sharebill-ionic/commit/7767cba757c05bf37a0f818595f898c6f0b86230))
+
 ## [0.6.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.5.0...sharebill-ionic-v0.6.0) (2025-11-25)
 
 
