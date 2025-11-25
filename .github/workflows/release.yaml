@@ -38,8 +38,7 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          config-file: .github/release-please-config.json
-          target-branch: ${{ github.base_ref }}
+          release-type: simple
           token: ${{ secrets.GITHUB_TOKEN }}
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
@@ -52,8 +51,9 @@ jobs:
     # Define common variables
     env:
       VERSION_TAG: ${{ needs.release.outputs.tag_name }}
-      FULL_IMAGE_NAME: ${{ secrets.ACR_REGISTRY_URL }}/vite-app # Changed name for clarity
       VITE_OUTPUT_DIR: dist # Assuming your vite.config.js uses 'dist'
+      ENV_SUFFIX: DEV
+      APP_NAME: sharebill-ionic
 
     steps:
       - name: ⬇️ Checkout Repository (Using New Tag)
@@ -80,5 +80,5 @@ jobs:
       - name: 📤 Upload Build Artifact (Vite Output)
         uses: actions/upload-artifact@v4
         with:
-          name: vite-build-${{ env.VERSION_TAG }}
+          name: ${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ env.VERSION_TAG }}
           path: ${{ env.VITE_OUTPUT_DIR }} # Uploads the 'dist' directory
