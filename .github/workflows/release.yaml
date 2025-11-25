@@ -38,11 +38,8 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          config-file: .github/workflows/release-please-config.json
-          # CRITICAL: Tells the action which branch config (master/production) to use
+          config-file: .github/release-please-config.json
           target-branch: ${{ github.base_ref }}
-          # CRITICAL: Explicitly targets the repository root for analysis
-          default-branch: master
           token: ${{ secrets.GITHUB_TOKEN }}
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
