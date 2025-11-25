@@ -7,7 +7,6 @@ on:
       - closed
     branches:
       - master
-      - production
 
 permissions:
   contents: write
