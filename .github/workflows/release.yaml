@@ -38,6 +38,7 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: simple
+          skip-github-pull-request: true
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
   build_and_deploy:
