@@ -15,10 +15,6 @@ jobs:
     # Only run if the PR was actually merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     # Outputs the new tag name for the next job to use
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
@@ -45,6 +41,8 @@ jobs:
     needs: release
     if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     # Define common variables
     env:
@@ -80,3 +78,18 @@ jobs:
         with:
           name: ${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ env.VERSION_TAG }}
           path: ${{ env.VITE_OUTPUT_DIR }} # Uploads the 'dist' directory
+
+      - name: ⬆️ Upload Release Artifact to GitHub Release
+        # Run only if a release was actually created (safe guard)
+        if: success()
+        uses: softprops/action-gh-release@v1
+        with:
+          # This token must have 'contents: write' permission
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # The tag name (created by release-please) is used to find the release
+          tag_name: ${{ env.VERSION_TAG }}
+          # The files/directories to attach.
+          # We zip the output directory for a single file download.
+          files: |
+            ${{ env.VITE_OUTPUT_DIR }}/*
+            # You can add more files here if needed
