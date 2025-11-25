@@ -50,7 +50,6 @@ jobs:
       VITE_OUTPUT_DIR: dist # Assuming your vite.config.js uses 'dist'
       ENV_SUFFIX: DEV
       APP_NAME: sharebill-ionic
-      ARTIFACT_FILENAME: ${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ needs.release.outputs.tag_name }}.zip
 
     steps:
       - name: ⬇️ Checkout Repository (Using New Tag)
@@ -87,7 +86,8 @@ jobs:
           # -r: recursively include all files and directories
           # -q: quiet mode
           # The resulting file is created in the root of the workspace.
-          zip -r -q ${{ env.ARTIFACT_FILENAME }} ${{ env.VITE_OUTPUT_DIR }}
+          export ARTIFACT_FILENAME=${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ needs.release.outputs.tag_name }}.zip
+          zip -r -q $ARTIFACT_FILENAME ${{ env.VITE_OUTPUT_DIR }}
 
       - name: ⬆️ Upload Release Artifact to GitHub Release
         # Run only if a release was actually created (safe guard)
