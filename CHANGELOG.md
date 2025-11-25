@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.6.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.5.0...sharebill-ionic-v0.6.0) (2025-11-25)
+
+
+### ✨ Features
+
+* change 1 ([e433d46](https://github.com/phuhh98/sharebill-ionic/commit/e433d460788162572df3014fa8565f789b7bedc2))
+* restore change log config ([f55a0b2](https://github.com/phuhh98/sharebill-ionic/commit/f55a0b2bcbcf03ef12ee27b2a9c871b44a09700b))
+
+## [0.5.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.4.0...sharebill-ionic-v0.5.0) (2025-11-25)
+
+
+### Features
+
+* artifact ([989858a](https://github.com/phuhh98/sharebill-ionic/commit/989858a9c1ee4cf81f52537c741f2ed6972982ce))
+
+## [0.4.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.3.0...sharebill-ionic-v0.4.0) (2025-11-25)
+
+
+### Features
+
+* testing another change ([e4c70ab](https://github.com/phuhh98/sharebill-ionic/commit/e4c70aba1e701b4bd79a5a89d3635f9a5bcc6c03))
+* testing another change ([3ff22a7](https://github.com/phuhh98/sharebill-ionic/commit/3ff22a782417f19a923ec50f8eb96c85c8c78489))
+
+
+### Bug Fixes
+
+* change ([c955aa9](https://github.com/phuhh98/sharebill-ionic/commit/c955aa93131d72c28208c8a90c769f6ae53c8d22))
+* change ([0e0f072](https://github.com/phuhh98/sharebill-ionic/commit/0e0f072de30fd1e34a1240af4f4444c0ee9ceae8))
+
 ## [0.3.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.2.0...sharebill-ionic-v0.3.0) (2025-11-25)
 
 
