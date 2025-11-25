@@ -81,7 +81,7 @@ jobs:
 
       # ✨ NEW STEP: Archive the build directory
       - name: Set set ARTIFACT_FILENAME
-        run: echo "ARTIFACT_FILENAME=${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ needs.release.outputs.tag_name }}.zip" >> $GITHUB_ENV
+        run: echo "ARTIFACT_FILENAME=${{ needs.release.outputs.tag_name }}-${{ env.ENV_SUFFIX }}.zip" >> $GITHUB_ENV
       - name: 📁 Archive Build Output
         run: |
           # The 'zip' command is available on most GitHub-hosted runners (ubuntu-latest)
