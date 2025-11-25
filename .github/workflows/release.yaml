@@ -35,10 +35,9 @@ jobs:
 
       - name: ⚙️ Semantic Release (Tagging Only)
         id: release
-        uses: googleapis/release-please-action@v3
+        uses: googleapis/release-please-action@v4
         with:
           release-type: simple
-          command: github-release
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
   build_and_deploy:
