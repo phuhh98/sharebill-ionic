@@ -14,7 +14,8 @@
       ],
       "prerelease": true,
       "prerelease-type": "dev",
-      "pull-request-title-pattern": "chore(release): {{version}} 🎉"
+      "pull-request-title-pattern": "chore(release): ${version} 🎉",
+      "pull-request-header": "# Release ${version} brief \n"
     }
   }
 }
