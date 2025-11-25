@@ -80,14 +80,15 @@ jobs:
           path: ${{ env.VITE_OUTPUT_DIR }} # Uploads the 'dist' directory
 
       # ✨ NEW STEP: Archive the build directory
+      - name: Set set ARTIFACT_FILENAME
+        run: echo "ARTIFACT_FILENAME=${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ needs.release.outputs.tag_name }}.zip" >> $GITHUB_ENV
       - name: 📁 Archive Build Output
         run: |
           # The 'zip' command is available on most GitHub-hosted runners (ubuntu-latest)
           # -r: recursively include all files and directories
           # -q: quiet mode
           # The resulting file is created in the root of the workspace.
-          export ARTIFACT_FILENAME=${{ env.APP_NAME }}-${{ env.ENV_SUFFIX }}-${{ needs.release.outputs.tag_name }}.zip
-          zip -r -q $ARTIFACT_FILENAME ${{ env.VITE_OUTPUT_DIR }}
+          zip -r -q ${{ env.ARTIFACT_FILENAME }} ${{ env.VITE_OUTPUT_DIR }}
 
       - name: ⬆️ Upload Release Artifact to GitHub Release
         # Run only if a release was actually created (safe guard)
