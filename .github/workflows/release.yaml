@@ -7,6 +7,11 @@ on:
       - master
       - production
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   version_and_build:
     name: 🔢 Calculate Version & Build
@@ -31,7 +36,11 @@ jobs:
 
       - name: 📦 Install Bump Utility & JQ
         run: |
+          # Install the main tool
           npm install -g conventional-recommended-bump
+          # Install the Angular preset rules that the tool will use (-p angular)
+          npm install -g conventional-changelog-angular 
+          # Install JQ for parsing JSON output
           sudo apt-get install -y jq
 
       - name: 🔢 Calculate Next Version and Set Environment
