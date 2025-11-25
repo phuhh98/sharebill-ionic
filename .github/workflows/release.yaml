@@ -1,0 +1,83 @@
+name: Next.js Standalone Build and Release
+
+on:
+  pull_request:
+    # Trigger only when a PR is merged (i.e., closed and merged)
+    types:
+      - closed
+    branches:
+      - main
+      - production
+
+jobs:
+  # --- JOB 1: Semantic Release and Tagging ---
+  release:
+    name: 🏷️ Semantic Release & Tagging
+    # Only run if the PR was actually merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    # Outputs the new tag name for the next job to use
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history to accurately calculate semantic version
+          fetch-depth: 0
+
+      - name: ⚙️ Semantic Release (Tagging Only)
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: .github/workflows/release-please-config.json
+          # CRITICAL: Tells the action which branch config (main/production) to use
+          target-branch: ${{ github.base_ref }}
+          # CRITICAL: Explicitly targets the repository root for analysis
+          manifest-paths: .
+          default-branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # --- JOB 2: Build, Push Docker Image, and Deploy ---
+  build_and_deploy:
+    name: 🐳 Build, Push, and Deploy
+    needs: release
+    if: needs.release.outputs.release_created
+    runs-on: ubuntu-latest
+
+    # Define common variables
+    env:
+      VERSION_TAG: ${{ needs.release.outputs.tag_name }}
+      FULL_IMAGE_NAME: ${{ secrets.ACR_REGISTRY_URL }}/vite-app # Changed name for clarity
+      VITE_OUTPUT_DIR: dist # Assuming your vite.config.js uses 'dist'
+
+    steps:
+      - name: ⬇️ Checkout Repository (Using New Tag)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.VERSION_TAG }}
+          fetch-depth: 0
+
+      # --- VITE BUILD STEPS ---
+
+      - name: ⚙️ Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Use your required Node version
+          cache: "npm"
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🛠️ Build Vite Application
+        run: npm run build
+        # This command runs your standard Vite build, typically outputting to './dist'
+
+      - name: 📤 Upload Build Artifact (Vite Output)
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-build-${{ env.VERSION_TAG }}
+          path: ${{ env.VITE_OUTPUT_DIR }} # Uploads the 'dist' directory
