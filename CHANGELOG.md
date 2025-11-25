@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/phuhh98/sharebill-ionic/compare/v0.1.0...v0.2.0) (2025-11-25)
+
+
+### Features
+
+* test ([d1763e9](https://github.com/phuhh98/sharebill-ionic/commit/d1763e9cf3ec4cc7ced15e5f2aecbda2b6f2327a))
+* test ([476b350](https://github.com/phuhh98/sharebill-ionic/commit/476b350bc811fbb20075c4424543a4e34c869525))
+* test ([437fad7](https://github.com/phuhh98/sharebill-ionic/commit/437fad7309471495554eb6464bae84ee62e684ba))
+* test ([77f7063](https://github.com/phuhh98/sharebill-ionic/commit/77f706381ae86f45fa3b85259e0fa3d7132fa1d7))
+* test ([6202d51](https://github.com/phuhh98/sharebill-ionic/commit/6202d5133b96ab53c69fe2dc97f092d2c61ff389))
+
 ## 0.1.0 (2025-11-25)
 
 
