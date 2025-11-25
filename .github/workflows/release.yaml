@@ -9,6 +9,11 @@ on:
       - master
       - production
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   # --- JOB 1: Semantic Release and Tagging ---
   release:
@@ -34,11 +39,11 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           config-file: .github/workflows/release-please-config.json
-          # CRITICAL: Tells the action which branch config (main/production) to use
+          # CRITICAL: Tells the action which branch config (master/production) to use
           target-branch: ${{ github.base_ref }}
           # CRITICAL: Explicitly targets the repository root for analysis
           manifest-paths: .
-          default-branch: main
+          default-branch: master
           token: ${{ secrets.GITHUB_TOKEN }}
 
   # --- JOB 2: Build, Push Docker Image, and Deploy ---
