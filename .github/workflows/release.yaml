@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - main
+      - master
       - production
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
           # 💡 UPDATED LOGIC
           IS_PRERELEASE="false"
 
-          if [ "$TARGET_BRANCH" == "main" ]; then
+          if [ "$TARGET_BRANCH" == "master" ]; then
             NEXT_TAG="v${NEXT_VERSION_BASE}-dev.0"
             IS_PRERELEASE="true"
             RELEASE_NAME="Development Build"
@@ -63,7 +63,7 @@ jobs:
           echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
           echo "release_name=$RELEASE_NAME" >> $GITHUB_OUTPUT # New
 
-      # --- VITE BUILD STEPS (Omitted for brevity, remains the same) ---
+      # --- VITE BUILD STEPS (Omitted for brevity, remasters the same) ---
 
       - name: 📦 Install Dependencies
         run: npm ci
@@ -89,7 +89,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🚀 Create GitHub Release (Dev and Prod)
-        # 💡 CONDITION REMOVED: This step now runs for BOTH main and production
+        # 💡 CONDITION REMOVED: This step now runs for BOTH master and production
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -102,5 +102,5 @@ jobs:
 
             Tag: `${{ steps.version_calc.outputs.next_tag }}`
           draft: false
-          # 💡 CRITICAL: Use the output variable to correctly mark 'main' releases as prerelease
+          # 💡 CRITICAL: Use the output variable to correctly mark 'master' releases as prerelease
           prerelease: ${{ steps.version_calc.outputs.is_prerelease }}
