@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.7.0...sharebill-ionic-v0.8.0) (2026-04-09)
+
+
+### ✨ Features
+
+* **security:** patch effected versions ([c928fe3](https://github.com/phuhh98/sharebill-ionic/commit/c928fe3292c2068a48e5ddf72c55468324132779))
+
 ## [0.7.0](https://github.com/phuhh98/sharebill-ionic/compare/sharebill-ionic-v0.6.0...sharebill-ionic-v0.7.0) (2025-11-25)
 
 
