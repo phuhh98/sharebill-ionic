@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import {
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+} from "@ionic/vue";
+import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
+
+import AppToast from "@/components/AppToast.vue";
+</script>
+
 <template>
   <ion-page>
     <ion-tabs>
@@ -27,18 +42,3 @@
     </ion-tabs>
   </ion-page>
 </template>
-
-<script setup lang="ts">
-import {
-  IonIcon,
-  IonLabel,
-  IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-} from "@ionic/vue";
-import { calculator, cloudUpload, personAdd, receipt } from "ionicons/icons";
-
-import AppToast from "@/components/AppToast.vue";
-</script>

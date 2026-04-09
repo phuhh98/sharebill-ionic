@@ -1,19 +1,3 @@
-<template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Shares</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-text v-if="receiptData.items.length == 0">
-        Nothing to share right now
-      </ion-text>
-      <swipe-item-share v-if="receiptData.items.length != 0"></swipe-item-share>
-    </ion-content>
-  </ion-page>
-</template>
-
 <script setup lang="ts">
 import {
   IonContent,
@@ -43,6 +27,22 @@ watch(
     // sync share store with update from payer list and items list
     sharesStore.syncNewPayersOrItemIds(payerIds.value, itemIds.value);
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
+
+<template>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Shares</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-text v-if="receiptData.items.length == 0">
+        Nothing to share right now
+      </ion-text>
+      <swipe-item-share v-if="receiptData.items.length != 0"></swipe-item-share>
+    </ion-content>
+  </ion-page>
+</template>

@@ -1,47 +1,3 @@
-<template>
-  <ion-page>
-    <ion-header id="header">
-      <ion-toolbar>
-        <ion-title>Login</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <form
-        @submit.prevent="handleLoginFormSubmit"
-        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-12 tw:gap-2 tw:px-2"
-      >
-        <ion-input
-          label="Username"
-          v-model="username"
-          class="userinput"
-          :required="true"
-          type="email"
-          @ion-blur="onUsernameBlur"
-          error-text="Please enter a valid email address."
-        ></ion-input>
-        <ion-input
-          type="password"
-          label="Password"
-          v-model="password"
-          class="userinput"
-          :required="true"
-          error-text="Password must be 8-20 characters long and include at least one letter, one number, and one special character."
-          @ionBlur="onPasswordBlur"
-        >
-          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-        </ion-input>
-        <ion-button type="submit" expand="block">Login</ion-button>
-        <ion-button
-          expand="block"
-          color="light"
-          @click.prevent="router.push('/signup')"
-          >Sign Up</ion-button
-        >
-      </form>
-    </ion-content>
-  </ion-page>
-</template>
-
 <script setup lang="ts">
 import { IonInputCustomEvent } from "@ionic/core";
 import {
@@ -123,3 +79,47 @@ ion-input.userinput {
   --background: var(--tw-color-gray-100);
 }
 </style>
+
+<template>
+  <ion-page>
+    <ion-header id="header">
+      <ion-toolbar>
+        <ion-title>Login</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form
+        @submit.prevent="handleLoginFormSubmit"
+        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-12 tw:gap-2 tw:px-2"
+      >
+        <ion-input
+          label="Username"
+          v-model="username"
+          class="userinput"
+          :required="true"
+          type="email"
+          @ion-blur="onUsernameBlur"
+          error-text="Please enter a valid email address."
+        ></ion-input>
+        <ion-input
+          type="password"
+          label="Password"
+          v-model="password"
+          class="userinput"
+          :required="true"
+          error-text="Password must be 8-20 characters long and include at least one letter, one number, and one special character."
+          @ionBlur="onPasswordBlur"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <ion-button type="submit" expand="block">Login</ion-button>
+        <ion-button
+          expand="block"
+          color="light"
+          @click.prevent="router.push('/signup')"
+          >Sign Up</ion-button
+        >
+      </form>
+    </ion-content>
+  </ion-page>
+</template>
