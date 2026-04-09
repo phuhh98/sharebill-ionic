@@ -41,6 +41,7 @@ jobs:
     needs: release
     if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
+    environment: main
     permissions:
       contents: write
 
@@ -102,3 +103,6 @@ jobs:
           # The files/directories to attach.
           # We zip the output directory for a single file download.
           files: ${{ env.ARTIFACT_FILENAME }}
+
+      - name: 🚀 Trigger Deployment Webhook
+        run: curl -X POST ${{ secrets.DEPLOYMENT_WEBHOOK_URL }}
