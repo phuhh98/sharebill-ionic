@@ -1,53 +1,3 @@
-<template>
-  <ion-page>
-    <ion-header id="header">
-      <ion-toolbar>
-        <ion-title>Sign up</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <form
-        @submit.prevent="handleSignUpFormSubmit"
-        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-10 tw:gap-2 tw:px-2"
-      >
-        <ion-input
-          label="Username"
-          v-model="username"
-          class="userinput"
-          :required="true"
-          type="email"
-          @ion-blur="onUsernameBlur"
-          error-text="Please enter a valid email address."
-        ></ion-input>
-
-        <ion-input
-          type="password"
-          label="Password"
-          v-model="password"
-          class="userinput"
-          :required="true"
-          error-text="Password must be 8-20 characters long and include at least one letter, one number, and one special character."
-          @ionBlur="onPasswordBlur"
-        >
-          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-        </ion-input>
-        <ion-input
-          type="password"
-          label="Retype password"
-          v-model="retypePassword"
-          class="userinput"
-          :required="true"
-          error-text="Passwords do not match."
-          @ionBlur="onRetypePasswordBlur"
-        >
-          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-        </ion-input>
-        <ion-button type="submit" expand="block">Sign Up and Login</ion-button>
-      </form>
-    </ion-content>
-  </ion-page>
-</template>
-
 <script setup lang="ts">
 import { IonInputCustomEvent } from "@ionic/core";
 import {
@@ -157,3 +107,53 @@ ion-input.userinput {
   --background: var(--tw-color-gray-100);
 }
 </style>
+
+<template>
+  <ion-page>
+    <ion-header id="header">
+      <ion-toolbar>
+        <ion-title>Sign up</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form
+        @submit.prevent="handleSignUpFormSubmit"
+        class="tw:w-full tw:h-full tw:flex tw:flex-col tw:pt-10 tw:gap-2 tw:px-2"
+      >
+        <ion-input
+          label="Username"
+          v-model="username"
+          class="userinput"
+          :required="true"
+          type="email"
+          @ion-blur="onUsernameBlur"
+          error-text="Please enter a valid email address."
+        ></ion-input>
+
+        <ion-input
+          type="password"
+          label="Password"
+          v-model="password"
+          class="userinput"
+          :required="true"
+          error-text="Password must be 8-20 characters long and include at least one letter, one number, and one special character."
+          @ionBlur="onPasswordBlur"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <ion-input
+          type="password"
+          label="Retype password"
+          v-model="retypePassword"
+          class="userinput"
+          :required="true"
+          error-text="Passwords do not match."
+          @ionBlur="onRetypePasswordBlur"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <ion-button type="submit" expand="block">Sign Up and Login</ion-button>
+      </form>
+    </ion-content>
+  </ion-page>
+</template>

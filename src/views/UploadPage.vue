@@ -1,52 +1,3 @@
-<template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Upload</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-loading
-        :is-open="isLoaderOpen"
-        message="Please wait..."
-        spinner="circles"
-      ></ion-loading>
-      <image-thumbnails></image-thumbnails>
-      <template v-if="Capacitor.getPlatform() !== 'web'">
-        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-          <ion-fab-button>
-            <ion-icon :icon="add"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-list side="start">
-            <ion-fab-button @click="takePhoto()">
-              <ion-icon :icon="camera"></ion-icon>
-            </ion-fab-button>
-          </ion-fab-list>
-          <ion-fab-list side="end">
-            <ion-fab-button @click="pickFromGallary()">
-              <ion-icon :icon="images"></ion-icon>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
-      </template>
-
-      <template v-if="Capacitor.getPlatform() === 'web'">
-        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-          <ion-fab-button @click="takePhoto()">
-            <ion-icon :icon="camera"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </template>
-
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="handleImageUpload">
-          <ion-icon :icon="sparkles"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </ion-content>
-  </ion-page>
-</template>
-
 <script setup lang="ts">
 import { Capacitor } from "@capacitor/core";
 import {
@@ -129,7 +80,7 @@ async function handleImageUpload() {
         Authorization: `Bearer ${await authStore.user?.getIdToken()}`,
       },
       method: `POST`,
-    }
+    },
   ).catch((_) => {
     hideLoader();
     toastStore.showToast({
@@ -195,11 +146,11 @@ async function handleImageUpload() {
 // Defer loading danfojs to improve initial page load performance
 // Only load danfojs when user already seen this page
 const danfojsScriptTag = document.head.appendChild(
-  document.createElement("script")
+  document.createElement("script"),
 );
 danfojsScriptTag.setAttribute(
   "src",
-  "https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.js"
+  "https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.js",
 );
 danfojsScriptTag.setAttribute("defer", "true");
 </script>
@@ -210,3 +161,52 @@ ion-thumbnail {
   /* --border-radius: 20px; */
 }
 </style>
+
+<template>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Upload</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-loading
+        :is-open="isLoaderOpen"
+        message="Please wait..."
+        spinner="circles"
+      ></ion-loading>
+      <image-thumbnails></image-thumbnails>
+      <template v-if="Capacitor.getPlatform() !== 'web'">
+        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+          <ion-fab-button>
+            <ion-icon :icon="add"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="start">
+            <ion-fab-button @click="takePhoto()">
+              <ion-icon :icon="camera"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+          <ion-fab-list side="end">
+            <ion-fab-button @click="pickFromGallary()">
+              <ion-icon :icon="images"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </template>
+
+      <template v-if="Capacitor.getPlatform() === 'web'">
+        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+          <ion-fab-button @click="takePhoto()">
+            <ion-icon :icon="camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </template>
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button @click="handleImageUpload">
+          <ion-icon :icon="sparkles"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+  </ion-page>
+</template>

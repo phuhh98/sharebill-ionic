@@ -1,51 +1,3 @@
-<template>
-  <ion-modal :is-open="isItemEditModalOpen">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button @click="handleEditModalCancel">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>{{
-          props.mode === EditModeEnum.edit ? "Edit item" : "Create Item"
-        }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button :strong="true" @click="handleEditModalConfirm"
-            >Confirm</ion-button
-          >
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item>
-          <ion-input type="text" label="Name" v-model="item.name"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            type="number"
-            label="Quantity"
-            v-model="item.quantity"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input type="number" label="Unit price" v-model="item.price"
-            ><span slot="end">{{ currency }}</span></ion-input
-          >
-        </ion-item>
-        <ion-item>
-          <ion-input
-            type="number"
-            label="Total price"
-            :value="itemTotalPrice"
-            disabled
-            ><span slot="end">{{ currency }}</span></ion-input
-          >
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-modal>
-</template>
-
 <script setup lang="ts">
 import {
   IonButton,
@@ -59,7 +11,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
-import { computed, defineProps, toRef } from "vue";
+import { computed, toRef } from "vue";
 
 import { useReceipt } from "@/stores/receipt";
 import { ReceiptItem } from "@/types/receipt.type";
@@ -116,3 +68,51 @@ const addNewItem = () => {
   receiptStore.addNewItem({ ...item.value, price_total: itemTotalPrice.value });
 };
 </script>
+
+<template>
+  <ion-modal :is-open="isItemEditModalOpen">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button @click="handleEditModalCancel">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>{{
+          props.mode === EditModeEnum.edit ? "Edit item" : "Create Item"
+        }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button :strong="true" @click="handleEditModalConfirm"
+            >Confirm</ion-button
+          >
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" label="Name" v-model="item.name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="number"
+            label="Quantity"
+            v-model="item.quantity"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="number" label="Unit price" v-model="item.price"
+            ><span slot="end">{{ currency }}</span></ion-input
+          >
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="number"
+            label="Total price"
+            :value="itemTotalPrice"
+            disabled
+            ><span slot="end">{{ currency }}</span></ion-input
+          >
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-modal>
+</template>

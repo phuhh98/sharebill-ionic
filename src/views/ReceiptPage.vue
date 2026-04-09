@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
+
+import ReceiptItemList from "@/components/ReceiptItemList.vue";
+import SharesPieChart from "@/components/SharesPieChart.vue";
+</script>
+
 <template>
   <ion-page>
     <ion-header>
@@ -12,16 +25,3 @@
     </ion-content>
   </ion-page>
 </template>
-
-<script setup lang="ts">
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/vue";
-
-import ReceiptItemList from "@/components/ReceiptItemList.vue";
-import SharesPieChart from "@/components/SharesPieChart.vue";
-</script>

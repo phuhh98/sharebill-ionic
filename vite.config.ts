@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
 
 import tailwindcss from "@tailwindcss/vite";
-import legacy from "@vitejs/plugin-legacy";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
@@ -59,7 +58,6 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    legacy(),
     tailwindcss(),
     VitePWA(manifestForPlugin),
     Boolean(process.env.ANALYZE_BUNDLE) &&

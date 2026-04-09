@@ -1,8 +1,3 @@
-<template>
-  <div class="tw:w-full tw:mb-8">
-    <canvas :id="CHART_ID"></canvas>
-  </div>
-</template>
 <script setup lang="ts">
 import {
   ArcElement,
@@ -68,12 +63,12 @@ const shareData = computed<ShareData[]>(() => {
       id: payerId,
       name: payerIdNameMap.value[payerId] || "Unknown",
       value: round((shareAmount / totalReceiptPrice.value) * 100 || 0, 2),
-    }))
+    })),
   );
   // now calculate unshared amount
   const totalSharedAmount = Object.values(moneySharePerPayerId).reduce(
     (acc, val) => acc + val,
-    0
+    0,
   );
 
   reducedShareData.push({
@@ -86,7 +81,7 @@ const shareData = computed<ShareData[]>(() => {
             ((totalReceiptPrice.value - totalSharedAmount) /
               totalReceiptPrice.value) *
               100,
-            2
+            2,
           ) || 0,
   });
 
@@ -134,7 +129,7 @@ const chartOptions: ChartOptions<"pie"> = {
 
             return ` Amount: ${formatCurrency(
               receiptData.value.currency,
-              round(amount, 3) || 0
+              round(amount, 3) || 0,
             )}`;
           }
 
@@ -142,7 +137,7 @@ const chartOptions: ChartOptions<"pie"> = {
             receiptData.value.currency,
             calculation.moneySharePerPayerId[
               (context.raw as ChartDataPoint).id
-            ] || 0
+            ] || 0,
           )}`;
         },
         label: function (context) {
@@ -178,4 +173,11 @@ watch([chartData, ctx], () => {
   });
 });
 </script>
+
 <style></style>
+
+<template>
+  <div class="tw:w-full tw:mb-8">
+    <canvas :id="CHART_ID"></canvas>
+  </div>
+</template>

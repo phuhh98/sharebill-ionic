@@ -1,20 +1,3 @@
-<template>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="4">
-        <ion-text class="tw:text-sm tw-font-bold">Overall Progress</ion-text>
-      </ion-col>
-      <ion-col size="8">
-        <div class="tw:h-full tw:flex tw:justify-center tw:items-center">
-          <ion-progress-bar
-            :color="progressColor"
-            :value="progress"
-          ></ion-progress-bar>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</template>
 <script setup lang="ts">
 import { IonCol, IonGrid, IonProgressBar, IonRow, IonText } from "@ionic/vue";
 import { round } from "mathjs";
@@ -55,7 +38,26 @@ const progressColor = computed<
 const progress = computed(() =>
   receiptData.value.items.length == 0
     ? 0
-    : totalSharedAmount.value / receiptData.value.total_receipt_price
+    : totalSharedAmount.value / receiptData.value.total_receipt_price,
 );
 </script>
+
 <style></style>
+
+<template>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-text class="tw:text-sm tw-font-bold">Overall Progress</ion-text>
+      </ion-col>
+      <ion-col size="8">
+        <div class="tw:h-full tw:flex tw:justify-center tw:items-center">
+          <ion-progress-bar
+            :color="progressColor"
+            :value="progress"
+          ></ion-progress-bar>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</template>
